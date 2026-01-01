@@ -1,5 +1,4 @@
-import Enrol from "./enrol/enrol";
-import Holiday from "./holiday/Holiday";
+import Enrol from "./enrol/Enrol";
 import Home from "./home/Home";
 import NavBar from "./navbar/NavBar";
 import Noticeboard from "./noticeboard/Noticeboard";
@@ -10,11 +9,10 @@ import Timetable from "./timetable/Timetable";
 
 const App = () => {
   return (
-    <div className="bg-zinc-50 font-sans dark:bg-black w-screen">
+    <div className="bg-zinc-50 font-sans dark:bg-black relative w-screen h-full">
       <NavBar>
         <Home />
         <Term />
-        <Holiday />
         <Results />
         <Pricing />
         <Timetable />

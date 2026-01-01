@@ -11,6 +11,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Link from "next/link";
 import { PropsWithChildren, useState } from "react";
 
@@ -21,12 +22,8 @@ const NavBar = ({ children }: PropsWithChildren) => {
       link: "#home",
     },
     {
-      name: "Term Classes",
+      name: "Classes",
       link: "#classes",
-    },
-    {
-      name: "Holiday & Mock Exams",
-      link: "#holiday",
     },
     {
       name: "Results",
@@ -58,6 +55,7 @@ const NavBar = ({ children }: PropsWithChildren) => {
             <NavbarButton as={Link} href="#enrol" variant="primary">
               Enrol
             </NavbarButton>
+            <AnimatedThemeToggler className="z-0" />
           </div>
         </NavBody>
 
@@ -91,14 +89,14 @@ const NavBar = ({ children }: PropsWithChildren) => {
                 variant="primary"
                 className="w-full"
               >
-                Login
+                Noticeboard
               </NavbarButton>
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
               >
-                Book a call
+                Enrol
               </NavbarButton>
             </div>
           </MobileNavMenu>
