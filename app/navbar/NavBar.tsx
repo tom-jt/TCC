@@ -30,10 +30,6 @@ const NavBar = ({ children }: PropsWithChildren) => {
       link: "#results",
     },
     {
-      name: "Pricing",
-      link: "#pricing",
-    },
-    {
       name: "Timetable",
       link: "#timetable",
     },
@@ -51,6 +47,9 @@ const NavBar = ({ children }: PropsWithChildren) => {
           <div className="flex items-center gap-4">
             <NavbarButton as={Link} href="#noticeboard" variant="secondary">
               Noticeboard
+            </NavbarButton>
+            <NavbarButton as={Link} href="#contact" variant="secondary">
+              Contact Us
             </NavbarButton>
             <NavbarButton as={Link} href="#enrol" variant="primary">
               Enrol

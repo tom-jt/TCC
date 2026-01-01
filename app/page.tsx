@@ -1,3 +1,4 @@
+import { Contact } from "lucide-react";
 import Enrol from "./enrol/Enrol";
 import Home from "./home/Home";
 import NavBar from "./navbar/NavBar";
@@ -17,6 +18,7 @@ const App = () => {
         <Pricing />
         <Timetable />
         <Noticeboard />
+        <Contact />
         <Enrol />
       </NavBar>
     </div>
