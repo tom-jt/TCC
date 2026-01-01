@@ -1,4 +1,4 @@
-import { Contact } from "lucide-react";
+import Contact from "./contact/Contact";
 import Enrol from "./enrol/Enrol";
 import Home from "./home/Home";
 import NavBar from "./navbar/NavBar";
