@@ -45,9 +45,6 @@ const NavBar = ({ children }: PropsWithChildren) => {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton as={Link} href="#noticeboard" variant="secondary">
-              Noticeboard
-            </NavbarButton>
             <NavbarButton as={Link} href="#contact" variant="secondary">
               Contact Us
             </NavbarButton>
