@@ -17,7 +17,16 @@ const Home = () => {
       />
 
       <div className="absolute top-0 w-full h-full flex items-center justify-center pointer-events-none">
-        <h1>Target Coaching College</h1>
+        <div className="flex flex-col text-center gap-4">
+          <h1 className="text-7xl/tight">
+            Target Coaching College
+            <br />
+            高老师补习学校
+          </h1>
+          <h2 className="text-3xl">
+            High School Mathematics Specialists @<em> Epping</em>
+          </h2>
+        </div>
       </div>
     </div>
   );

@@ -13,11 +13,11 @@ const App = () => {
     <div className="bg-zinc-50 font-sans dark:bg-black relative w-screen h-full">
       <NavBar>
         <Home />
+        <Noticeboard />
         <Term />
         <Results />
         <Pricing />
         <Timetable />
-        <Noticeboard />
         <Contact />
         <Enrol />
       </NavBar>
