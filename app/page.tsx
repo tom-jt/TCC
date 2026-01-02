@@ -5,7 +5,7 @@ import NavBar from "./navbar/NavBar";
 import Noticeboard from "./noticeboard/Noticeboard";
 import Pricing from "./pricing/Pricing";
 import Results from "./results/Results";
-import Term from "./term/Term";
+import Classes from "./classes/Classes";
 import Timetable from "./timetable/Timetable";
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
       <NavBar>
         <Home />
         <Noticeboard />
-        <Term />
+        <Classes />
         <Results />
         <Pricing />
         <Timetable />

@@ -7,6 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import Image from "next/image";
 
 import React, { useRef, useState } from "react";
 
@@ -86,12 +87,12 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: "blur(10px)",
+        backdropFilter: visible ? "blur(2px)" : "none",
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
         width: visible ? "70%" : "100%",
-        y: visible ? 20 : 0,
+        y: visible ? -20 : 0,
       }}
       transition={{
         type: "spring",
@@ -148,7 +149,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
+        backdropFilter: visible ? "blur(2px)" : "none",
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
@@ -235,7 +236,13 @@ export const NavbarLogo = () => {
       href="#"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <img src="/PlaceholderLogo.png" alt="logo" width={30} height={30} />
+      <Image
+        src="/icons/Logo.png"
+        alt="Target Coaching College Logo"
+        className="dark:invert object-contain"
+        width={50}
+        height={50}
+      />
       <span className="font-medium text-black dark:text-white">
         Target Coaching College
       </span>
