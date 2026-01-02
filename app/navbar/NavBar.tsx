@@ -18,8 +18,8 @@ import { PropsWithChildren, useState } from "react";
 const NavBar = ({ children }: PropsWithChildren) => {
   const navItems = [
     {
-      name: "Home",
-      link: "#home",
+      name: "Noticeboard",
+      link: "#noticeboard",
     },
     {
       name: "Classes",
