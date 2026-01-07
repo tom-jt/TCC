@@ -29,9 +29,9 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <div className="w-full md:px-10" ref={containerRef}>
-      <div className="flex justify-between max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <div className="flex flex-col gap-4 max-w-1/">
+    <div className="w-full" ref={containerRef}>
+      <div className="flex justify-between max-w-7xl mx-auto">
+        <div className="flex flex-col justify-center gap-4">
           <h2 className="text-lg md:text-4xl text-black dark:text-white max-w-4xl">
             Class Arrangement
           </h2>
@@ -86,7 +86,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500">
                 {item.title}
               </h3>
-              {item.content}{" "}
+              {item.content}
             </div>
           </div>
         ))}
@@ -101,7 +101,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+            className="absolute inset-x-0 top-20 w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
           />
         </div>
       </div>

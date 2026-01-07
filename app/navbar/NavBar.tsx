@@ -13,9 +13,14 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Link from "next/link";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, ReactNode, useState } from "react";
 
-const NavBar = ({ children }: PropsWithChildren) => {
+interface NavBarProps extends PropsWithChildren {
+  children?: ReactNode;
+  className?: string;
+}
+
+const NavBar = ({ children, className = "" }: NavBarProps) => {
   const navItems = [
     {
       name: "Noticeboard",
@@ -26,12 +31,12 @@ const NavBar = ({ children }: PropsWithChildren) => {
       link: "#classes",
     },
     {
-      name: "Results",
-      link: "#results",
+      name: "Holiday",
+      link: "#holiday",
     },
     {
-      name: "Timetable",
-      link: "#timetable",
+      name: "Results",
+      link: "#results",
     },
   ];
 
@@ -85,7 +90,7 @@ const NavBar = ({ children }: PropsWithChildren) => {
                 variant="primary"
                 className="w-full"
               >
-                Noticeboard
+                Contact Us
               </NavbarButton>
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -99,7 +104,7 @@ const NavBar = ({ children }: PropsWithChildren) => {
         </MobileNav>
       </Navbar>
 
-      {children}
+      <div className={className}>{children}</div>
     </div>
   );
 };
