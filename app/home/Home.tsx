@@ -1,10 +1,12 @@
 import ColorBends from "@/components/ColorBends";
+import Orb from "@/components/Orb";
 import Prism from "@/components/Prism";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const Home = () => {
   return (
-    <div className="relative h-screen" id="home">
-      <Prism
+    <div className="relative w-full h-screen" id="home">
+      {/* <Prism
         animationType="rotate"
         timeScale={0.5}
         height={3.5}
@@ -15,10 +17,30 @@ const Home = () => {
         noise={0}
         glow={1}
         suspendWhenOffscreen={true}
-      />
+      /> */}
 
-      <div className="absolute top-0 w-full h-full flex items-center justify-center pointer-events-none">
-        <div className="flex flex-col text-center gap-4">
+      {/* <ColorBends
+        colors={["#147A00", "#00517A", "#66007A", "#7A2900"]}
+        rotation={0}
+        speed={0.2}
+        scale={1}
+        frequency={1}
+        warpStrength={1}
+        mouseInfluence={1}
+        parallax={0.5}
+        noise={0.1}
+        transparent
+      /> */}
+
+      {/* <Orb
+        hoverIntensity={5}
+        rotateOnHover={false}
+        hue={0}
+        forceHoverState={true}
+      /> */}
+
+      <AuroraBackground>
+        <div className="flex flex-col text-center gap-4 text-black dark:text-zinc-50">
           <h1 className="text-7xl/tight">
             Target Coaching College
             <br />
@@ -28,7 +50,7 @@ const Home = () => {
             High School Mathematics Specialists @<em> Epping</em>
           </h2>
         </div>
-      </div>
+      </AuroraBackground>
     </div>
   );
 };
