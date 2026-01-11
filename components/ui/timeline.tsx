@@ -30,7 +30,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div className="w-full" ref={containerRef}>
-      <div className="flex justify-between max-w-7xl mx-auto">
+      <div className="flex justify-between gap-4">
         <div className="flex flex-col justify-center gap-4">
           <h2 className="text-lg md:text-4xl text-black dark:text-white max-w-4xl">
             Class Arrangement
@@ -67,7 +67,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </SpotlightCard>
       </div>
 
-      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+      <div ref={ref} className="relative pb-20">
         {data.map((item, index) => (
           <div
             key={index}

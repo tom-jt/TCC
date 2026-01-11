@@ -25,8 +25,8 @@ const Classes = () => {
   ];
 
   return (
-    <div className="relative" id="classes">
-      <div className="flex flex-col mx-auto gap-24 max-w-7xl pb-20">
+    <div id="classes">
+      <div className="flex flex-col gap-24 pb-20">
         <div className="flex justify-between h-80">
           <div className="flex flex-col justify-between gap-12">
             <h2 className="text-lg md:text-4xl text-black dark:text-white max-w-4xl">

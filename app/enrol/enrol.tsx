@@ -1,5 +1,5 @@
 const Enrol = () => {
-  return <div className="relative" id="enrol"></div>;
+  return <div id="enrol"></div>;
 };
 
 export default Enrol;
