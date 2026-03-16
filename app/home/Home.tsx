@@ -40,7 +40,7 @@ const Home = () => {
       /> */}
 
       <AuroraBackground>
-        <div className="flex flex-col text-center gap-4 text-black dark:text-zinc-50">
+        <div className="flex flex-col text-center gap-4 text-black dark:text-white">
           <h1 className="text-7xl/tight">
             Target Coaching College
             <br />
