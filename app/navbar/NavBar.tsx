@@ -56,7 +56,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             <NavbarButton as={Link} href="#enrol" variant="primary">
               Enrol
             </NavbarButton>
-            <AnimatedThemeToggler className="z-0" />
+            <AnimatedThemeToggler className="z-0 cursor-pointer" />
           </div>
         </NavBody>
 

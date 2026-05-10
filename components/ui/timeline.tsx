@@ -38,7 +38,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           <h3 className=" text-neutral-700 dark:text-neutral-300 text-lg md:text-xl">
             <em>2026 Term 1</em>
             <br />
-            Saturday 24 January 2026 &ndash; Friday 3 April 2026
+            Saturday, 24 January 2026 &ndash; Friday, 3 April 2026
           </h3>
         </div>
 
