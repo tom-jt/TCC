@@ -1,3 +1,12 @@
+import NoticeboardAnnouncement from "@/components/NoticeboardAnnouncement";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 const Noticeboard = () => {
   return (
     <div id="noticeboard">
@@ -5,7 +14,17 @@ const Noticeboard = () => {
         Noticeboard
       </h2>
 
-      <div></div>
+      <Carousel className="pt-12">
+        <CarouselContent>
+          <NoticeboardAnnouncement />
+          <NoticeboardAnnouncement />
+          <NoticeboardAnnouncement />
+          <NoticeboardAnnouncement />
+        </CarouselContent>
+
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   );
 };
