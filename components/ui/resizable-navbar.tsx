@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 
 import React, { useRef, useState } from "react";
+import { scrollToId } from "../util";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -113,7 +114,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   );
 };
 
-export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
+export const NavItems = ({ items, className }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -127,10 +128,12 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       {items.map((item, idx) => (
         <a
           onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
+            e.preventDefault();
+            scrollToId(item.link);
+          }}
+          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:cursor-pointer"
           key={`link-${idx}`}
-          href={item.link}
         >
           {hovered === idx && (
             <motion.div

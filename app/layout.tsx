@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 import "@/app/globals.css";
+import { ThemeSync } from "@/components/ThemeSync";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${merriweather.className} text-justify antialiased`}>
+        <ThemeSync />
         {children}
       </body>
     </html>

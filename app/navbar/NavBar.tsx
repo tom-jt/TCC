@@ -12,8 +12,8 @@ import {
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import Link from "next/link";
 import { PropsWithChildren, ReactNode, useState } from "react";
+import { scrollToId } from "@/components/util";
 
 interface NavBarProps extends PropsWithChildren {
   children?: ReactNode;
@@ -24,23 +24,37 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
   const navItems = [
     {
       name: "Noticeboard",
-      link: "#noticeboard",
+      link: "noticeboard",
     },
     {
       name: "Classes",
-      link: "#classes",
+      link: "classes",
     },
     {
       name: "Holiday",
-      link: "#holiday",
+      link: "holiday",
     },
     {
       name: "Results",
-      link: "#results",
+      link: "results",
     },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navBarOnClick = (e: React.MouseEvent<HTMLElement>, id: string) => {
+    e.preventDefault();
+    scrollToId(id);
+  };
+
+  const navBarOnClickMobile = (
+    e: React.MouseEvent<HTMLElement>,
+    id: string,
+  ) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    scrollToId(id);
+  };
 
   return (
     <div className="relative w-full">
@@ -50,10 +64,22 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton as={Link} href="#contact" variant="secondary">
+            <NavbarButton
+              as={"a"}
+              onClick={(e: React.MouseEvent<HTMLElement>) =>
+                navBarOnClick(e, "contact")
+              }
+              variant="secondary"
+            >
               Contact Us
             </NavbarButton>
-            <NavbarButton as={Link} href="#enrol" variant="primary">
+            <NavbarButton
+              as={"a"}
+              onClick={(e: React.MouseEvent<HTMLElement>) =>
+                navBarOnClick(e, "enrol")
+              }
+              variant="primary"
+            >
               Enrol
             </NavbarButton>
             <AnimatedThemeToggler className="z-0 cursor-pointer" />
@@ -78,7 +104,9 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
               <a
                 key={`mobile-link-${idx}`}
                 href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                  navBarOnClickMobile(e, item.link)
+                }
                 className="relative text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
@@ -86,14 +114,18 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                  navBarOnClickMobile(e, "contact")
+                }
                 variant="primary"
                 className="w-full"
               >
                 Contact Us
               </NavbarButton>
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                  navBarOnClickMobile(e, "enrol")
+                }
                 variant="primary"
                 className="w-full"
               >
