@@ -3,10 +3,8 @@ import Enrol from "./enrol/Enrol";
 import Home from "./home/Home";
 import NavBar from "./navbar/NavBar";
 import Noticeboard from "./noticeboard/Noticeboard";
-import Pricing from "./pricing/Pricing";
 import Results from "./results/Results";
 import Classes from "./classes/Classes";
-import Timetable from "./timetable/Timetable";
 import Holiday from "./holiday/Holiday";
 import styles from "./page.module.css";
 import { Particles } from "@/components/ui/particles";
@@ -14,7 +12,6 @@ import { Particles } from "@/components/ui/particles";
 const App = () => {
   return (
     <div className="bg-zinc-50 font-sans dark:bg-black relative w-screen">
-      {/* A top padding is applied instead of gap for onClick navigation */}
       <NavBar className="relative flex flex-col w-full items-center">
         <Home />
         <div className="relative bg-zinc-50 dark:bg-black flex justify-center w-full">
@@ -26,8 +23,6 @@ const App = () => {
             <Classes />
             <Holiday />
             <Results />
-            <Pricing />
-            <Timetable />
             <Contact />
             <Enrol />
           </div>

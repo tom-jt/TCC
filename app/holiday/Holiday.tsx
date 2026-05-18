@@ -27,7 +27,7 @@ const Holiday = () => {
       <div className="flex gap-4 justify-between items-center">
         <SpotlightCard
           className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-          spotlightColor="rgba(0, 0, 229, 0.4)"
+          spotlightColor="rgba(0, 0, 229, 0.3)"
         >
           <BicepsFlexed size={36} />
           <h3 className="text-lg md:text-2xl text-black dark:text-white max-w-4xl">
@@ -44,10 +44,10 @@ const Holiday = () => {
             Years 11&ndash;12: 3 hours / day
           </p>
         </SpotlightCard>
-        <div className="h-64 w-0.5 rounded-full bg-black dark:bg-white" />
+        <div className="h-64 w-0.5 rounded-full bg-neutral-400 dark:bg-white" />
         <SpotlightCard
           className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-          spotlightColor="rgba(229, 0, 0, 0.4)"
+          spotlightColor="rgba(229, 0, 120, 0.3)"
         >
           <ScrollText size={36} />
           <h3 className="text-lg md:text-2xl text-black dark:text-white max-w-4xl">

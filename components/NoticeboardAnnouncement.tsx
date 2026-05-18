@@ -1,3 +1,4 @@
+import { Megaphone } from "lucide-react";
 import SpotlightCard from "./SpotlightCard";
 import { CarouselItem } from "./ui/carousel";
 
@@ -5,11 +6,11 @@ const NoticeboardAnnouncement = () => {
   return (
     <CarouselItem className="basis-1/3">
       <SpotlightCard
-        className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none h-48"
-        spotlightColor="rgba(255, 0, 0, 0.4)"
+        className="bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 h-48 border-none"
+        spotlightColor="rgba(255, 0, 0, 0.3)"
       >
-        <h3 className="text-lg md:text-2xl text-black dark:text-white max-w-4xl">
-          Group Lessons
+        <h3 className="text-lg md:text-2xl text-black dark:text-white max-w-4xl flex gap-4">
+          <Megaphone /> Group Lessons
         </h3>
         <h3 className=" text-neutral-700 dark:text-neutral-300 text-md md:text-lg">
           <em>Saturday, 24 January 2026</em>
