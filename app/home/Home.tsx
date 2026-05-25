@@ -24,7 +24,7 @@ const Home = () => {
       /> */}
 
       <AuroraBackground>
-        <div className="flex flex-col text-center gap-4 text-black dark:text-white">
+        <div className="flex flex-col text-center gap-4">
           <h1 className="text-7xl/tight">
             Target Coaching College
             <br />

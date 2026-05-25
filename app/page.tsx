@@ -11,10 +11,10 @@ import { Particles } from "@/components/ui/particles";
 
 const App = () => {
   return (
-    <div className="bg-zinc-50 font-sans dark:bg-black relative w-screen">
+    <div className="font-sans relative w-screen">
       <NavBar className="relative flex flex-col w-full items-center">
         <Home />
-        <div className="relative bg-zinc-50 dark:bg-black flex justify-center w-full">
+        <div className="relative bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center w-full">
           {/* <Particles className="w-1/6" refresh /> */}
           <div
             className={`z-10 flex flex-col items-center w-2/3 ${styles.navbarContainer}`}
@@ -23,10 +23,13 @@ const App = () => {
             <Classes />
             <Holiday />
             <Results />
-            <Contact />
             <Enrol />
           </div>
-          {/* <Particles className="w-1/6" refresh /> */}
+
+          {/* Footer */}
+          <Contact />
+
+          {/* Particles */}
           <Particles
             className="absolute inset-0"
             quantity={500}

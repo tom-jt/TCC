@@ -122,6 +122,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  p {
+    @apply text-neutral-700 dark:text-neutral-300;
+  }
 }
 
 ::view-transition-old(root),
