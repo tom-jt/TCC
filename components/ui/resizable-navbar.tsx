@@ -132,7 +132,7 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
             e.preventDefault();
             scrollToId(item.link);
           }}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 hover:cursor-pointer"
+          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 cursor-pointer"
           key={`link-${idx}`}
         >
           {hovered === idx && (
@@ -226,18 +226,17 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
-  );
+  return isOpen ? <IconX onClick={onClick} /> : <IconMenu2 onClick={onClick} />;
 };
 
 export const NavbarLogo = () => {
   return (
     <a
-      href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative cursor-pointer z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
+      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        scrollToId("home");
+      }}
     >
       <Image
         src="/icons/Logo.png"
@@ -246,9 +245,7 @@ export const NavbarLogo = () => {
         width={50}
         height={50}
       />
-      <span className="font-medium text-black dark:text-white">
-        Target Coaching College
-      </span>
+      <span className="font-medium">Target Coaching College</span>
     </a>
   );
 };

@@ -32,10 +32,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     <div className="w-full" ref={containerRef}>
       <div className="flex justify-between gap-4">
         <div className="flex flex-col justify-center gap-4">
-          <h2 className="text-lg md:text-4xl text-black dark:text-white max-w-4xl">
-            Class Arrangement
-          </h2>
-          <h3 className=" text-neutral-700 dark:text-neutral-300 text-lg md:text-xl">
+          <h2 className="text-lg md:text-4xl max-w-4xl">Class Arrangement</h2>
+          <h3 className="text-lg md:text-xl">
             <em>2026 Term 1</em>
             <br />
             Saturday, 24 January 2026 &ndash; Friday, 3 April 2026
