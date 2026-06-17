@@ -12,7 +12,7 @@ import { Particles } from "@/components/ui/particles";
 const App = () => {
   return (
     <div className="font-sans relative w-screen">
-      <NavBar className="relative">
+      <NavBar className="relative w-full">
         <Home />
         <div className="relative bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center w-full">
           <div

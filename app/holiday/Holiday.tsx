@@ -42,7 +42,7 @@ const Holiday = () => {
             Years 11&ndash;12: 3 hours / day
           </p>
         </SpotlightCard>
-        <div className="h-64 w-1 rounded-full bg-neutral-400 dark:bg-white" />
+        <div className="h-64 w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
         <SpotlightCard
           className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
           spotlightColor="rgba(229, 0, 120, 0.3)"

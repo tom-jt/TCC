@@ -5,9 +5,9 @@ const Contact = () => {
   return (
     <div
       id="contact"
-      className="bg-zinc-100 dark:bg-black w-full py-12 z-10 flex justify-between items-center shadow-2xl"
+      className="bg-zinc-100 dark:bg-black w-full py-12 z-10 flex max-md:flex-col justify-between items-center shadow-2xl"
     >
-      <div className="flex justify-between items-center xl:gap-12 gap-4">
+      <div className="flex max-md:flex-col justify-between items-center xl:gap-12 gap-4">
         <PinContainer
           title="View on map"
           href="https://maps.app.goo.gl/ocqRdYNigMvPGAYv7"
@@ -23,7 +23,7 @@ const Contact = () => {
           </div>
         </PinContainer>
 
-        <p className="flex flex-col gap-4 h-full max-w-sm *:flex *:justify-between *:text-xs md:*:text-sm">
+        <div className="flex flex-col gap-4 h-full max-w-sm *:flex *:justify-between *:text-xs md:*:text-sm">
           <span>
             <em>Address</em>
             <span className="text-right">
@@ -36,6 +36,9 @@ const Contact = () => {
               Epping NSW, 2121
             </span>
           </span>
+
+          <div className="bg-zinc-50 w-full h-0.5"></div>
+
           <span>
             <em>Mobile</em>
             <span className="text-right">
@@ -44,6 +47,9 @@ const Contact = () => {
               0403 755 691
             </span>
           </span>
+
+          <div className="bg-zinc-50 w-full h-0.5"></div>
+
           <span>
             <em>WeChat</em>
             <span className="text-right">
@@ -52,11 +58,14 @@ const Contact = () => {
               JamesGaoMaths
             </span>
           </span>
+
+          <div className="bg-zinc-50 w-full h-0.5"></div>
+
           <span className="gap-4">
             <em>Email</em>
             <span className="text-right">target.coaching@hotmail.com</span>
           </span>
-        </p>
+        </div>
       </div>
 
       <div className="flex gap-8 h-full w-1/3 items-center justify-center">

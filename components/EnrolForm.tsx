@@ -172,7 +172,7 @@ export default function EnrolForm() {
         </div>
 
         <button
-          className="group/btn cursor-pointer relative h-10 w-full rounded-md bg-linear-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+          className="group/btn cursor-pointer relative h-10 w-full rounded-md bg-linear-to-br from-neutral-900 to-neutral-800 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:text-black dark:from-neutral-200 dark:to-neutral-300 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
           type="submit"
         >
           Send enrolment request &nbsp;
@@ -189,8 +189,8 @@ export default function EnrolForm() {
 const BottomGradient = () => {
   return (
     <>
-      <span className="absolute inset-x-0 -bottom-px block h-px w-full bg-linear-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-300 group-hover/btn:opacity-100" />
-      <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-linear-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-300 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-0 -bottom-0.5 block h-0.5 w-full bg-linear-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-300 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-10 -bottom-0.5 mx-auto block h-0.5 w-1/2 bg-linear-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-300 group-hover/btn:opacity-100" />
     </>
   );
 };
