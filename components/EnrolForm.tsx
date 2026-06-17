@@ -12,7 +12,7 @@ export default function EnrolForm() {
   };
 
   return (
-    <div className="shadow-input m-24 rounded-none bg-white p-8 md:rounded-2xl dark:bg-black">
+    <div className="shadow-input m-24 rounded-none bg-zinc-100 p-8 md:rounded-2xl dark:bg-black">
       <h2 className="text-lg md:text-4xl max-w-4xl">Enrol</h2>
       <p className="mt-2">
         We will get in contact with you as soon as possible.

@@ -41,26 +41,26 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </div>
 
         <SpotlightCard
-          className="bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none"
+          className="bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
           spotlightColor="rgba(255, 229, 0, 0.3)"
         >
-          <div className="text-sm text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Graded classes based on exams.
+          <div>
+            <div>⭐</div><div>Graded classes based on exams.</div>
           </div>
-          <div className="text-sm text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Termly exams with feedback and performance reports.
+          <div>
+            <div>⭐</div><div>Termly exams with feedback and performance reports.</div>
           </div>
-          <div className="text-sm text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Teaching materials tailored for accelerated learning.
+          <div>
+            <div>⭐</div><div>Teaching materials tailored for accelerated learning.</div>
           </div>
-          <div className="text-sm text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Critically marked homework.
+          <div>
+            <div>⭐</div><div>Critically marked homework.</div>
           </div>
-          <div className="text-sm text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Weekly quizzes to reinforce prior learning.
+          <div>
+            <div>⭐</div><div>Weekly quizzes to reinforce prior learning.</div>
           </div>
-          <div className="text-xs text-neutral-700 md:text-lg dark:text-neutral-300">
-            ⭐ Additional 1-on-1 lessons can be organised.
+          <div>
+            <div>⭐</div><div>Additional 1-on-1 lessons can be organised.</div>
           </div>
         </SpotlightCard>
       </div>
