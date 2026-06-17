@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${merriweather.className} text-justify antialiased`}>
+      <body className={`${merriweather.className} text-justify antialiased bg-blue-400`}>
         <ThemeSync />
         {children}
       </body>

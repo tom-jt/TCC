@@ -13,7 +13,7 @@ const Results = () => {
 
         <div className="flex flex-col gap-4">
           <h3 className="text-lg md:text-2xl max-w-4xl">State Ranks</h3>
-          <div className="grid grid-cols-3 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-2 gap-x-48 gap-y-4">
             <Result name="John D" result="14th for 2U Maths" />
           </div>
         </div>

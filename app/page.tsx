@@ -12,12 +12,11 @@ import { Particles } from "@/components/ui/particles";
 const App = () => {
   return (
     <div className="font-sans relative w-screen">
-      <NavBar className="relative flex flex-col w-full items-center">
+      <NavBar className="relative">
         <Home />
         <div className="relative bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center w-full">
-          {/* <Particles className="w-1/6" refresh /> */}
           <div
-            className={`z-10 flex flex-col items-center w-2/3 ${styles.navbarContainer}`}
+            className={`z-10 flex flex-col items-center xl:w-2/3 w-5/6 ${styles.navbarContainer}`}
           >
             <Noticeboard />
             <Classes />

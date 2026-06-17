@@ -6,7 +6,7 @@ const NoticeboardAnnouncement = () => {
   return (
     <CarouselItem className="basis-1/3">
       <SpotlightCard
-        className="bg-zinc-100 dark:bg-zinc-900 flex flex-col gap-4 h-48 border-none"
+        className="bg-zinc-100 dark:bg-zinc-900 flex flex-col gap-4 min-h-48 border-none"
         spotlightColor="rgba(255, 0, 0, 0.3)"
       >
         <h3 className="text-lg md:text-2xl max-w-4xl flex gap-4">
