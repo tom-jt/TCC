@@ -62,7 +62,7 @@ const Classes = () => {
               physically present.
             </p>
           </SpotlightCard>
-          <div className="h-64 w-1 rounded-full bg-neutral-400 dark:bg-white" />
+          <div className="h-64 w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
           <SpotlightCard
             className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
             spotlightColor="rgba(0, 229, 255, 0.3)"

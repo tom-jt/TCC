@@ -12,7 +12,7 @@ const NoticeboardAnnouncement = () => {
         <h3 className="text-lg md:text-2xl max-w-4xl flex gap-4">
           <Megaphone /> Group Lessons
         </h3>
-        <h3 className="text-md md:text-lg">
+        <h3 className="text-base md:text-lg text-left">
           <em>Saturday, 24 January 2026</em>
         </h3>
         <p className="text-sm md:text-base max-w-sm">

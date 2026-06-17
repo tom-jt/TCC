@@ -25,12 +25,12 @@ const Home = () => {
 
       <AuroraBackground>
         <div className="flex flex-col text-center gap-4">
-          <h1 className="text-7xl/tight">
+          <h1 className="text-2xl/tight lg:text-7xl/tight">
             Target Coaching College
             <br />
             高老师补习学校
           </h1>
-          <h2 className="text-3xl">
+          <h2 className="text-md lg:text-3xl">
             High School Mathematics Specialists @<em> Epping</em>
           </h2>
         </div>

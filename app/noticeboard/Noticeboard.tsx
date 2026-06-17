@@ -20,7 +20,7 @@ const Noticeboard = () => {
           className="w-50 rounded-2xl object-cover"
         />
         <div className="flex h-24 items-center gap-4">
-          <div className="w-1 h-full rounded-full bg-neutral-400 dark:bg-white" />
+          <div className="w-1 h-full rounded-full bg-neutral-400 dark:bg-zinc-50" />
           <div className="text-sm md:text-base max-w-sm">
             <IconQuoteFilled />
             <p className="italic">
