@@ -38,13 +38,22 @@ export const AnimatedThemeToggler = ({
   const toggleTheme = useCallback(async () => {
     if (!buttonRef.current) return;
 
+    const applyTheme = () => {
+      const newTheme = !isDark;
+      setIsDark(newTheme);
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+    };
+
+    // Browsers without the View Transition API still need to switch theme —
+    // they just do it without the circular wipe.
+    if (!document.startViewTransition) {
+      applyTheme();
+      return;
+    }
+
     await document.startViewTransition(() => {
-      flushSync(() => {
-        const newTheme = !isDark;
-        setIsDark(newTheme);
-        document.documentElement.classList.toggle("dark");
-        localStorage.setItem("theme", newTheme ? "dark" : "light");
-      });
+      flushSync(applyTheme);
     }).ready;
 
     const { top, left, width, height } =

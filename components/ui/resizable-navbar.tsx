@@ -128,6 +128,7 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
     >
       {items.map((item, idx) => (
         <a
+          href={`#${item.link}`}
           onMouseEnter={() => setHovered(idx)}
           onClick={(e: React.MouseEvent<HTMLElement>) => {
             e.preventDefault();
@@ -233,6 +234,7 @@ export const MobileNavToggle = ({
 export const NavbarLogo = () => {
   return (
     <a
+      href="#home"
       className="relative cursor-pointer z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
       onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();

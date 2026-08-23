@@ -7,26 +7,6 @@ const general: GeneralContent = content;
 const Home = () => {
   return (
     <div className="relative w-full h-screen" id="home">
-      {/* <Prism
-        animationType="rotate"
-        timeScale={0.5}
-        height={3.5}
-        baseWidth={5.5}
-        scale={3.6}
-        hueShift={0}
-        colorFrequency={1}
-        noise={0}
-        glow={1}
-        suspendWhenOffscreen={true}
-      /> */}
-
-      {/* <Orb
-        hoverIntensity={5}
-        rotateOnHover={false}
-        hue={0}
-        forceHoverState={true}
-      /> */}
-
       <AuroraBackground>
         <div className="flex flex-col text-center gap-4">
           <h1 className="text-2xl/tight lg:text-7xl/tight">
@@ -34,7 +14,9 @@ const Home = () => {
             <br />
             高老师补习学校
           </h1>
-          <h2 className="text-md lg:text-3xl">{general.heroTagline}</h2>
+          <p className="text-md lg:text-3xl text-neutral-800 dark:text-neutral-200">
+            {general.heroTagline}
+          </p>
         </div>
       </AuroraBackground>
     </div>

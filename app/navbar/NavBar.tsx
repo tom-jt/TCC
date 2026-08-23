@@ -66,6 +66,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
           <div className="flex items-center gap-4">
             <NavbarButton
               as={"a"}
+              href="#contact"
               onClick={(e: React.MouseEvent<HTMLElement>) =>
                 navBarOnClick(e, "contact")
               }
@@ -75,6 +76,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             </NavbarButton>
             <NavbarButton
               as={"a"}
+              href="#enrol"
               onClick={(e: React.MouseEvent<HTMLElement>) =>
                 navBarOnClick(e, "enrol")
               }
@@ -103,7 +105,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             {navItems.map((item, idx) => (
               <a
                 key={`mobile-link-${idx}`}
-                href={item.link}
+                href={`#${item.link}`}
                 onClick={(e: React.MouseEvent<HTMLElement>) =>
                   navBarOnClickMobile(e, item.link)
                 }
@@ -114,6 +116,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
+                href="#contact"
                 onClick={(e: React.MouseEvent<HTMLElement>) =>
                   navBarOnClickMobile(e, "contact")
                 }
@@ -123,6 +126,7 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
                 Contact Us
               </NavbarButton>
               <NavbarButton
+                href="#enrol"
                 onClick={(e: React.MouseEvent<HTMLElement>) =>
                   navBarOnClickMobile(e, "enrol")
                 }

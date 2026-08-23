@@ -5,7 +5,7 @@ import type { Notice } from "@/data/types";
 
 const NoticeboardAnnouncement = ({ title, date, body }: Notice) => {
   return (
-    <CarouselItem className="basis-1/3">
+    <CarouselItem className="basis-full md:basis-1/2 lg:basis-1/3">
       <SpotlightCard
         className="bg-zinc-100 dark:bg-zinc-900 flex flex-col gap-4 min-h-48 border-none"
         spotlightColor="rgba(255, 0, 0, 0.3)"
