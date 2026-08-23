@@ -5,7 +5,7 @@ import Image from "next/image";
 const Holiday = () => {
   return (
     <div className="flex flex-col gap-24" id="holiday">
-      <div className="flex justify-between h-80">
+      <div className="flex flex-col md:flex-row md:justify-between gap-8 md:h-80">
         <div className="flex flex-col justify-center gap-12">
           <h2 className="text-lg md:text-4xl max-w-4xl">Holiday Program</h2>
           <p className="text-sm md:text-base max-w-sm">
@@ -19,10 +19,10 @@ const Holiday = () => {
           height={900}
           src="/placeholders/PlaceholderImage2.jpg"
           alt="Teachers and students interacting in classroom"
-          className="object-cover w-1/2 rounded-2xl"
+          className="object-cover w-full md:w-1/2 rounded-2xl"
         />
       </div>
-      <div className="flex gap-4 justify-between items-center">
+      <div className="flex flex-col md:flex-row gap-4 md:justify-between items-center">
         <SpotlightCard
           className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
           spotlightColor="rgba(0, 0, 229, 0.3)"
@@ -42,7 +42,7 @@ const Holiday = () => {
             Years 11&ndash;12: 3 hours / day
           </p>
         </SpotlightCard>
-        <div className="h-64 w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
+        <div className="w-64 h-1 md:h-64 md:w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
         <SpotlightCard
           className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
           spotlightColor="rgba(229, 0, 120, 0.3)"

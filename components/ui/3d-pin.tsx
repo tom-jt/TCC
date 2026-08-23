@@ -30,7 +30,7 @@ export const PinContainer = ({
   return (
     <a
       className={cn(
-        "relative group/pin z-50 cursor-pointer",
+        "relative group/pin z-50 cursor-pointer w-60 h-60",
         containerClassName,
       )}
       onMouseEnter={onMouseEnter}
@@ -61,7 +61,7 @@ export const PinContainer = ({
 
 export const PinPerspective = ({ title }: { title?: string }) => {
   return (
-    <motion.div className="pointer-events-none  w-96 h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 transition duration-500">
+    <motion.div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 max-w-[90vw] h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 transition duration-500">
       <div className=" w-full h-full -mt-7 flex-none  inset-0">
         <div className="absolute top-0 inset-x-0  flex justify-center">
           <div className="relative flex items-center z-10 py-2 px-4 ring-1 ring-white/10 bg-zinc-100 dark:bg-neutral-900 rounded-full">

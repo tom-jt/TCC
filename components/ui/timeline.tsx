@@ -30,7 +30,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div className="w-full" ref={containerRef}>
-      <div className="flex justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4">
         <div className="flex flex-col justify-center gap-4">
           <h2 className="text-lg md:text-4xl max-w-4xl">Class Arrangement</h2>
           <h3 className="text-base md:text-lg">
@@ -41,7 +41,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </div>
 
         <SpotlightCard
-          className="w-1/2 bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
+          className="w-full md:w-1/2 bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
           spotlightColor="rgba(255, 229, 0, 0.3)"
         >
           <div>

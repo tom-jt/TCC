@@ -13,14 +13,14 @@ const Results = () => {
 
         <div className="flex flex-col gap-4">
           <h3 className="text-lg md:text-2xl max-w-4xl">State Ranks</h3>
-          <div className="grid grid-cols-2 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 sm:gap-x-24 lg:gap-x-48 gap-y-4">
             <Result name="John D" result="14th for 2U Maths" />
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
           <h3 className="text-lg md:text-2xl max-w-4xl">ATAR</h3>
-          <div className="grid grid-cols-3 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 lg:gap-x-48 gap-y-4">
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
@@ -33,7 +33,7 @@ const Results = () => {
           <h3 className="text-lg md:text-2xl max-w-4xl">
             Extension 2 Maths (4U) Results
           </h3>
-          <div className="grid grid-cols-3 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 lg:gap-x-48 gap-y-4">
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
@@ -49,7 +49,7 @@ const Results = () => {
           <h3 className="text-lg md:text-2xl max-w-4xl">
             Extension 1 Maths (3U) Results
           </h3>
-          <div className="grid grid-cols-3 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 lg:gap-x-48 gap-y-4">
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
@@ -61,7 +61,7 @@ const Results = () => {
           <h3 className="text-lg md:text-2xl max-w-4xl">
             Advanced Maths (2U) Results
           </h3>
-          <div className="grid grid-cols-3 gap-x-48 gap-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 lg:gap-x-48 gap-y-4">
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
             <Result name="John D" result="10" />
