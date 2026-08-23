@@ -1,6 +1,11 @@
 import SpotlightCard from "@/components/SpotlightCard";
 import { BicepsFlexed, ScrollText } from "lucide-react";
 import Image from "next/image";
+import content from "@/data/holiday.json";
+import type { HolidayContent } from "@/data/types";
+import { Fragment } from "react";
+
+const holiday: HolidayContent = content;
 
 const Holiday = () => {
   return (
@@ -8,16 +13,12 @@ const Holiday = () => {
       <div className="flex flex-col md:flex-row md:justify-between gap-8 md:h-80">
         <div className="flex flex-col justify-center gap-12">
           <h2 className="text-lg md:text-4xl max-w-4xl">Holiday Program</h2>
-          <p className="text-sm md:text-base max-w-sm">
-            Our holiday intensive program runs on the first week of each school
-            holiday (dates vary for the summer break): January, April, July,
-            September.
-          </p>
+          <p className="text-sm md:text-base max-w-sm">{holiday.intro}</p>
         </div>
         <Image
           width={1600}
           height={900}
-          src="/placeholders/PlaceholderImage2.jpg"
+          src={holiday.photo}
           alt="Teachers and students interacting in classroom"
           className="object-cover w-full md:w-1/2 rounded-2xl"
         />
@@ -32,14 +33,15 @@ const Holiday = () => {
             1-Week Intensive Program
           </h3>
           <p className="text-sm md:text-base max-w-sm">
-            Content ranges from both revision of past topics to a head start on
-            new topics 1&ndash;2 terms ahead of the pacing at typical high
-            schools.
+            {holiday.intensiveIntro}
             <br />
             <br />
-            Years 6&ndash;10: 2 hours / day
-            <br />
-            Years 11&ndash;12: 3 hours / day
+            {holiday.intensiveDetails.map((line, index) => (
+              <Fragment key={index}>
+                {index > 0 && <br />}
+                {line}
+              </Fragment>
+            ))}
           </p>
         </SpotlightCard>
         <div className="w-64 h-1 md:h-64 md:w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
@@ -49,11 +51,7 @@ const Holiday = () => {
         >
           <ScrollText size={36} />
           <h3 className="text-lg md:text-2xl max-w-4xl">Mock Exams</h3>
-          <p className="text-sm md:text-base max-w-sm">
-            5 sets of timed, supervised exams with hand-crafted papers. Each
-            exam will be critically marked and accompanied by a tutorial
-            session.
-          </p>
+          <p className="text-sm md:text-base max-w-sm">{holiday.mockExams}</p>
         </SpotlightCard>
       </div>
     </div>

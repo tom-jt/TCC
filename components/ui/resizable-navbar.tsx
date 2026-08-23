@@ -11,6 +11,10 @@ import Image from "next/image";
 
 import React, { useRef, useState } from "react";
 import { scrollToId } from "../util";
+import content from "@/data/general.json";
+import type { GeneralContent } from "@/data/types";
+
+const general: GeneralContent = content;
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -236,7 +240,7 @@ export const NavbarLogo = () => {
       }}
     >
       <Image
-        src="/icons/Logo.png"
+        src={general.logo}
         alt="Target Coaching College Logo"
         className="dark:invert object-contain"
         width={50}

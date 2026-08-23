@@ -3,26 +3,46 @@ import { User, Users } from "lucide-react";
 import SpotlightCard from "@/components/SpotlightCard";
 import Image from "next/image";
 import ClassArrangementBlock from "@/components/ClassArrangementBlock";
+import content from "@/data/classes.json";
+import type { ClassesContent } from "@/data/types";
+
+const classes: ClassesContent = content;
 
 const Classes = () => {
-  const data = [
-    {
-      title: "Years 6–8",
-      content: <ClassArrangementBlock key="6,7,8" />,
-    },
-    {
-      title: "Years 9–10",
-      content: <ClassArrangementBlock key="9,10" />,
-    },
-    {
-      title: "Years 11–12 (2U/3U)",
-      content: <ClassArrangementBlock key="2u,3u" />,
-    },
-    {
-      title: "Years 11–12 (4U)",
-      content: <ClassArrangementBlock key="4u" />,
-    },
-  ];
+  const data = classes.groups.map((group) => ({
+    title: group.title,
+    content: (
+      <ClassArrangementBlock
+        lessonDuration={group.lessonDuration}
+        schedule={group.schedule}
+      />
+    ),
+  }));
+
+  const timelineHeader = (
+    <div className="flex flex-col md:flex-row md:justify-between gap-4">
+      <div className="flex flex-col justify-center gap-4">
+        <h2 className="text-lg md:text-4xl max-w-4xl">Class Arrangement</h2>
+        <h3 className="text-base md:text-lg">
+          <em>{classes.termLabel}</em>
+          <br />
+          {classes.termDates}
+        </h3>
+      </div>
+
+      <SpotlightCard
+        className="w-full md:w-1/2 bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
+        spotlightColor="rgba(255, 229, 0, 0.3)"
+      >
+        {classes.features.map((feature, index) => (
+          <div key={index}>
+            <div>⭐</div>
+            <div>{feature}</div>
+          </div>
+        ))}
+      </SpotlightCard>
+    </div>
+  );
 
   return (
     <div id="classes">
@@ -30,19 +50,12 @@ const Classes = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-8 md:h-80">
           <div className="flex flex-col justify-between gap-12">
             <h2 className="text-lg md:text-4xl max-w-4xl">Our Classes</h2>
-            <p className="text-sm md:text-base max-w-sm">
-              We specialise in high-quality mathematics tutoring for students
-              from Year 6 to Year 12, supporting learners at all ability levels
-              &ndash; from building strong foundations to excelling in advanced
-              courses. Our teaching focuses on developing clear understanding,
-              confidence, and effective problem-solving skills, rather than rote
-              memorisation.
-            </p>
+            <p className="text-sm md:text-base max-w-sm">{classes.intro}</p>
           </div>
           <Image
             width={1600}
             height={900}
-            src="/placeholders/PlaceholderImage.jpg"
+            src={classes.photo}
             alt="Teachers and students interacting in classroom"
             className="object-cover w-full md:w-1/2 rounded-2xl"
           />
@@ -55,11 +68,7 @@ const Classes = () => {
             <Users size={36} />
             <h3 className="text-lg md:text-2xl max-w-4xl">Group Lessons</h3>
             <p className="text-sm md:text-base max-w-sm">
-              All lessons are conducted face-to-face in the classroom to
-              encourage engagement and direct interaction. For added
-              flexibility, lessons are broadcast live, allowing students to
-              attend online via Microsoft Teams if they are unable to be
-              physically present.
+              {classes.groupLessons}
             </p>
           </SpotlightCard>
           <div className="w-64 h-1 md:h-64 md:w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
@@ -70,18 +79,14 @@ const Classes = () => {
             <User size={36} />
             <h3 className="text-lg md:text-2xl max-w-4xl">1-on-1 Lessons</h3>
             <p className="text-sm md:text-base max-w-sm">
-              We also offer individual one-on-one tutoring, providing
-              personalised instruction targeted to the student&apos;s specific
-              strengths, challenges, and learning pace. These sessions are ideal
-              for focused support, exam preparation, or customised learning
-              plans.
+              {classes.individualLessons}
             </p>
           </SpotlightCard>
         </div>
       </div>
 
       {/* Class Arrangement */}
-      <Timeline data={data} />
+      <Timeline data={data} header={timelineHeader} />
     </div>
   );
 };

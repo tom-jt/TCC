@@ -1,4 +1,8 @@
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import content from "@/data/general.json";
+import type { GeneralContent } from "@/data/types";
+
+const general: GeneralContent = content;
 
 const Home = () => {
   return (
@@ -30,9 +34,7 @@ const Home = () => {
             <br />
             高老师补习学校
           </h1>
-          <h2 className="text-md lg:text-3xl">
-            High School Mathematics Specialists @<em> Epping</em>
-          </h2>
+          <h2 className="text-md lg:text-3xl">{general.heroTagline}</h2>
         </div>
       </AuroraBackground>
     </div>

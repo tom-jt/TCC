@@ -4,6 +4,10 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import content from "@/data/general.json";
+import type { GeneralContent } from "@/data/types";
+
+const general: GeneralContent = content;
 
 export default function EnrolForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -14,9 +18,7 @@ export default function EnrolForm() {
   return (
     <div className="shadow-input mx-4 my-24 md:m-24 rounded-none bg-zinc-100 p-8 md:rounded-2xl dark:bg-black">
       <h2 className="text-lg md:text-4xl max-w-4xl">Enrol</h2>
-      <p className="mt-2">
-        We will get in contact with you as soon as possible.
-      </p>
+      <p className="mt-2">{general.enrolIntro}</p>
 
       <form className="flex flex-col gap-8 mt-4" onSubmit={handleSubmit}>
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 md:justify-between">

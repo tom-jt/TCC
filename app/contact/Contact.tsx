@@ -1,20 +1,35 @@
 import { PinContainer } from "@/components/ui/3d-pin";
 import Image from "next/image";
+import contactContent from "@/data/contact.json";
+import generalContent from "@/data/general.json";
+import type { ContactContent, GeneralContent } from "@/data/types";
+import { Fragment } from "react";
+
+const contact: ContactContent = contactContent;
+const general: GeneralContent = generalContent;
+
+const Lines = ({ lines }: { lines: string[] }) => (
+  <span className="text-right">
+    {lines.map((line, index) => (
+      <Fragment key={index}>
+        {index > 0 && <br />}
+        {line}
+      </Fragment>
+    ))}
+  </span>
+);
 
 const Contact = () => {
   return (
     <div
       id="contact"
-      className="bg-zinc-100 dark:bg-black w-full py-12 z-10 flex max-lg:flex-col justify-between items-center shadow-2xl"
+      className="bg-zinc-100 dark:bg-black w-full py-12 px-6 md:px-12 xl:px-20 gap-8 z-10 flex max-lg:flex-col justify-between items-center shadow-2xl"
     >
       <div className="flex max-lg:flex-col justify-between items-center xl:gap-12 gap-4">
-        <PinContainer
-          title="View on map"
-          href="https://maps.app.goo.gl/ocqRdYNigMvPGAYv7"
-        >
+        <PinContainer title="View on map" href={contact.mapUrl}>
           <div className="w-60 h-60">
             <Image
-              src="/placeholders/PlaceholderBuilding.jpg"
+              src={contact.buildingPhoto}
               alt="Office Building Location"
               width="2000"
               height="1333"
@@ -26,51 +41,35 @@ const Contact = () => {
         <div className="flex flex-col gap-4 h-full max-w-sm *:flex *:justify-between *:text-xs md:*:text-sm">
           <span>
             <em>Address</em>
-            <span className="text-right">
-              Suite 205, Level 2
-              <br />
-              3 Carlingford Road
-              <br />
-              (61 Rawson Street)
-              <br />
-              Epping NSW, 2121
-            </span>
+            <Lines lines={contact.address} />
           </span>
 
           <div className="bg-zinc-50 w-full h-0.5"></div>
 
           <span>
             <em>Mobile</em>
-            <span className="text-right">
-              0431 138 185
-              <br />
-              0403 755 691
-            </span>
+            <Lines lines={contact.mobile} />
           </span>
 
           <div className="bg-zinc-50 w-full h-0.5"></div>
 
           <span>
             <em>WeChat</em>
-            <span className="text-right">
-              TargetCoaching
-              <br />
-              JamesGaoMaths
-            </span>
+            <Lines lines={contact.wechat} />
           </span>
 
           <div className="bg-zinc-50 w-full h-0.5"></div>
 
           <span className="gap-4">
             <em>Email</em>
-            <span className="text-right">target.coaching@hotmail.com</span>
+            <span className="text-right">{contact.email}</span>
           </span>
         </div>
       </div>
 
       <div className="flex gap-4 md:gap-8 h-full items-center justify-center shrink-0">
         <Image
-          src="/icons/Logo.png"
+          src={general.logo}
           alt="Target Coaching College Logo"
           className="dark:invert object-contain w-30 xl:w-50 h-full"
           width={500}
