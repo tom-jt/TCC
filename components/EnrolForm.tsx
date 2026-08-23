@@ -12,14 +12,14 @@ export default function EnrolForm() {
   };
 
   return (
-    <div className="shadow-input m-24 rounded-none bg-zinc-100 p-8 md:rounded-2xl dark:bg-black">
+    <div className="shadow-input mx-4 my-24 md:m-24 rounded-none bg-zinc-100 p-8 md:rounded-2xl dark:bg-black">
       <h2 className="text-lg md:text-4xl max-w-4xl">Enrol</h2>
       <p className="mt-2">
         We will get in contact with you as soon as possible.
       </p>
 
       <form className="flex flex-col gap-8 mt-4" onSubmit={handleSubmit}>
-        <div className="flex gap-12 justify-between">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 md:justify-between">
           {/* Student details */}
           <div className="flex flex-col gap-4">
             <p className="italic mt-4">Student</p>

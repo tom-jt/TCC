@@ -11,7 +11,7 @@ import Image from "next/image";
 const Noticeboard = () => {
   return (
     <div id="noticeboard">
-      <div className="flex w-full gap-24 justify-center items-center">
+      <div className="flex flex-col md:flex-row w-full gap-8 md:gap-24 justify-center items-center">
         <Image
           src="/images/Principal.jpg"
           alt="Principal Profile Photo"

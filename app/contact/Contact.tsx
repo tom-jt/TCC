@@ -5,9 +5,9 @@ const Contact = () => {
   return (
     <div
       id="contact"
-      className="bg-zinc-100 dark:bg-black w-full py-12 z-10 flex max-md:flex-col justify-between items-center shadow-2xl"
+      className="bg-zinc-100 dark:bg-black w-full py-12 z-10 flex max-lg:flex-col justify-between items-center shadow-2xl"
     >
-      <div className="flex max-md:flex-col justify-between items-center xl:gap-12 gap-4">
+      <div className="flex max-lg:flex-col justify-between items-center xl:gap-12 gap-4">
         <PinContainer
           title="View on map"
           href="https://maps.app.goo.gl/ocqRdYNigMvPGAYv7"
@@ -68,7 +68,7 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className="flex gap-8 h-full w-1/3 items-center justify-center">
+      <div className="flex gap-4 md:gap-8 h-full items-center justify-center shrink-0">
         <Image
           src="/icons/Logo.png"
           alt="Target Coaching College Logo"
