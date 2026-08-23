@@ -7,13 +7,17 @@ import {
 } from "@/components/ui/carousel";
 import { IconQuoteFilled } from "@tabler/icons-react";
 import Image from "next/image";
+import content from "@/data/noticeboard.json";
+import type { NoticeboardContent } from "@/data/types";
+
+const noticeboard: NoticeboardContent = content;
 
 const Noticeboard = () => {
   return (
     <div id="noticeboard">
       <div className="flex flex-col md:flex-row w-full gap-8 md:gap-24 justify-center items-center">
         <Image
-          src="/images/Principal.jpg"
+          src={noticeboard.principalPhoto}
           alt="Principal Profile Photo"
           width="315"
           height="472"
@@ -23,26 +27,28 @@ const Noticeboard = () => {
           <div className="w-1 h-full rounded-full bg-neutral-400 dark:bg-zinc-50" />
           <div className="text-sm md:text-base max-w-sm">
             <IconQuoteFilled />
-            <p className="italic">
-              PLACEHOLDER for a very motivational quote here.
-            </p>
-            <p className="text-right">&ndash; James Gao, Principal</p>
+            <p className="italic">{noticeboard.principalQuote}</p>
+            <p className="text-right">{noticeboard.principalAttribution}</p>
           </div>
         </div>
       </div>
-      <h2 className="pt-36 text-lg md:text-4xl max-w-4xl">Noticeboard</h2>
 
-      <Carousel className="pt-12">
-        <CarouselContent>
-          <NoticeboardAnnouncement />
-          <NoticeboardAnnouncement />
-          <NoticeboardAnnouncement />
-          <NoticeboardAnnouncement />
-        </CarouselContent>
+      {noticeboard.notices.length > 0 && (
+        <>
+          <h2 className="pt-36 text-lg md:text-4xl max-w-4xl">Noticeboard</h2>
 
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+          <Carousel className="pt-12">
+            <CarouselContent>
+              {noticeboard.notices.map((notice, index) => (
+                <NoticeboardAnnouncement key={index} {...notice} />
+              ))}
+            </CarouselContent>
+
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </>
+      )}
     </div>
   );
 };

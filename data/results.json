@@ -1,0 +1,34 @@
+{
+  "subheading": "HSC results of our students for ????",
+  "stateRanks": [{ "name": "John D", "result": "14th for 2U Maths" }],
+  "atar": [
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" }
+  ],
+  "extension2": [
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" }
+  ],
+  "extension1": [
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" }
+  ],
+  "advanced2": [
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" },
+    { "name": "John D", "result": "10" }
+  ]
+}

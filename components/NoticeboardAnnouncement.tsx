@@ -1,8 +1,9 @@
 import { Megaphone } from "lucide-react";
 import SpotlightCard from "./SpotlightCard";
 import { CarouselItem } from "./ui/carousel";
+import type { Notice } from "@/data/types";
 
-const NoticeboardAnnouncement = () => {
+const NoticeboardAnnouncement = ({ title, date, body }: Notice) => {
   return (
     <CarouselItem className="basis-1/3">
       <SpotlightCard
@@ -10,14 +11,12 @@ const NoticeboardAnnouncement = () => {
         spotlightColor="rgba(255, 0, 0, 0.3)"
       >
         <h3 className="text-lg md:text-2xl max-w-4xl flex gap-4">
-          <Megaphone /> Group Lessons
+          <Megaphone /> {title}
         </h3>
         <h3 className="text-base md:text-lg text-left">
-          <em>Saturday, 24 January 2026</em>
+          <em>{date}</em>
         </h3>
-        <p className="text-sm md:text-base max-w-sm">
-          Lessons for Term 2 begin XX/XX/XXXX.
-        </p>
+        <p className="text-sm md:text-base max-w-sm">{body}</p>
       </SpotlightCard>
     </CarouselItem>
   );

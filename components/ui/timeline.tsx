@@ -1,14 +1,19 @@
 "use client";
 import { useScroll, useTransform, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
-import SpotlightCard from "../SpotlightCard";
 
 interface TimelineEntry {
   title: string;
   content: React.ReactNode;
 }
 
-export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+export const Timeline = ({
+  data,
+  header,
+}: {
+  data: TimelineEntry[];
+  header?: React.ReactNode;
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -30,46 +35,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div className="w-full" ref={containerRef}>
-      <div className="flex flex-col md:flex-row md:justify-between gap-4">
-        <div className="flex flex-col justify-center gap-4">
-          <h2 className="text-lg md:text-4xl max-w-4xl">Class Arrangement</h2>
-          <h3 className="text-base md:text-lg">
-            <em>2026 Term 1</em>
-            <br />
-            Saturday, 24 January &ndash; Friday, 3 April
-          </h3>
-        </div>
-
-        <SpotlightCard
-          className="w-full md:w-1/2 bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
-          spotlightColor="rgba(255, 229, 0, 0.3)"
-        >
-          <div>
-            <div>⭐</div>
-            <div>Graded classes based on exams.</div>
-          </div>
-          <div>
-            <div>⭐</div>
-            <div>Termly exams with feedback and performance reports.</div>
-          </div>
-          <div>
-            <div>⭐</div>
-            <div>Teaching materials tailored for accelerated learning.</div>
-          </div>
-          <div>
-            <div>⭐</div>
-            <div>Critically marked homework.</div>
-          </div>
-          <div>
-            <div>⭐</div>
-            <div>Weekly quizzes to reinforce prior learning.</div>
-          </div>
-          <div>
-            <div>⭐</div>
-            <div>Additional 1-on-1 lessons can be organised.</div>
-          </div>
-        </SpotlightCard>
-      </div>
+      {header}
 
       <div ref={ref} className="relative pb-20">
         {data.map((item, index) => (

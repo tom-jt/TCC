@@ -1,0 +1,27 @@
+{
+  "principalPhoto": "/images/Principal.jpg",
+  "principalQuote": "PLACEHOLDER for a very motivational quote here.",
+  "principalAttribution": "– James Gao, Principal",
+  "notices": [
+    {
+      "title": "Group Lessons",
+      "date": "Saturday, 24 January 2026",
+      "body": "Lessons for Term 2 begin XX/XX/XXXX."
+    },
+    {
+      "title": "Group Lessons",
+      "date": "Saturday, 24 January 2026",
+      "body": "Lessons for Term 2 begin XX/XX/XXXX."
+    },
+    {
+      "title": "Group Lessons",
+      "date": "Saturday, 24 January 2026",
+      "body": "Lessons for Term 2 begin XX/XX/XXXX."
+    },
+    {
+      "title": "Group Lessons",
+      "date": "Saturday, 24 January 2026",
+      "body": "Lessons for Term 2 begin XX/XX/XXXX."
+    }
+  ]
+}
