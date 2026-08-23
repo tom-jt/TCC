@@ -1,5 +1,11 @@
+import EnrolForm from "@/components/EnrolForm";
+
 const Enrol = () => {
-  return <div className="relative" id="enrol"></div>;
+  return (
+    <div id="enrol">
+      <EnrolForm />
+    </div>
+  );
 };
 
 export default Enrol;

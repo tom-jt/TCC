@@ -1,0 +1,13 @@
+{
+  "buildingPhoto": "/placeholders/PlaceholderBuilding.jpg",
+  "mapUrl": "https://maps.app.goo.gl/ocqRdYNigMvPGAYv7",
+  "address": [
+    "Suite 205, Level 2",
+    "3 Carlingford Road",
+    "(61 Rawson Street)",
+    "Epping NSW, 2121"
+  ],
+  "mobile": ["0431 138 185", "0403 755 691"],
+  "wechat": ["TargetCoaching", "JamesGaoMaths"],
+  "email": "target.coaching@hotmail.com"
+}

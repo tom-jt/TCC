@@ -1,24 +1,42 @@
-import ColorBends from "@/components/ColorBends";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import content from "@/data/general.json";
+import type { GeneralContent } from "@/data/types";
+
+const general: GeneralContent = content;
 
 const Home = () => {
   return (
-    <div className="relative h-screen" id="home">
-      <ColorBends
-        colors={["#147A00", "#00517A", "#66007A", "#7A2900"]}
-        rotation={0}
-        speed={0.2}
-        scale={1}
-        frequency={1}
-        warpStrength={1}
-        mouseInfluence={1}
-        parallax={0.5}
-        noise={0.1}
-        transparent
-      />
+    <div className="relative w-full h-screen" id="home">
+      {/* <Prism
+        animationType="rotate"
+        timeScale={0.5}
+        height={3.5}
+        baseWidth={5.5}
+        scale={3.6}
+        hueShift={0}
+        colorFrequency={1}
+        noise={0}
+        glow={1}
+        suspendWhenOffscreen={true}
+      /> */}
 
-      <div className="absolute top-0 w-full h-full flex items-center justify-center pointer-events-none">
-        <h1>Target Coaching College</h1>
-      </div>
+      {/* <Orb
+        hoverIntensity={5}
+        rotateOnHover={false}
+        hue={0}
+        forceHoverState={true}
+      /> */}
+
+      <AuroraBackground>
+        <div className="flex flex-col text-center gap-4">
+          <h1 className="text-2xl/tight lg:text-7xl/tight">
+            Target Coaching College
+            <br />
+            高老师补习学校
+          </h1>
+          <h2 className="text-md lg:text-3xl">{general.heroTagline}</h2>
+        </div>
+      </AuroraBackground>
     </div>
   );
 };

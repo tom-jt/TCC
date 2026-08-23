@@ -1,0 +1,54 @@
+{
+  "photo": "/placeholders/PlaceholderImage.jpg",
+  "intro": "We specialise in high-quality mathematics tutoring for students from Year 6 to Year 12, supporting learners at all ability levels – from building strong foundations to excelling in advanced courses. Our teaching focuses on developing clear understanding, confidence, and effective problem-solving skills, rather than rote memorisation.",
+  "groupLessons": "All lessons are conducted face-to-face in the classroom to encourage engagement and direct interaction. For added flexibility, lessons are broadcast live, allowing students to attend online via Microsoft Teams if they are unable to be physically present.",
+  "individualLessons": "We also offer individual one-on-one tutoring, providing personalised instruction targeted to the student's specific strengths, challenges, and learning pace. These sessions are ideal for focused support, exam preparation, or customised learning plans.",
+  "termLabel": "2026 Term 1",
+  "termDates": "Saturday, 24 January – Friday, 3 April",
+  "features": [
+    "Graded classes based on exams.",
+    "Termly exams with feedback and performance reports.",
+    "Teaching materials tailored for accelerated learning.",
+    "Critically marked homework.",
+    "Weekly quizzes to reinforce prior learning.",
+    "Additional 1-on-1 lessons can be organised."
+  ],
+  "groups": [
+    {
+      "title": "Years 6–8",
+      "lessonDuration": "1.5-hour lesson / week",
+      "schedule": [
+        "Year X | Wednesday 4pm",
+        "Year X | Saturday 9am",
+        "Year X | Sunday 10am"
+      ]
+    },
+    {
+      "title": "Years 9–10",
+      "lessonDuration": "1.5-hour lesson / week",
+      "schedule": [
+        "Year X | Wednesday 4pm",
+        "Year X | Saturday 9am",
+        "Year X | Sunday 10am"
+      ]
+    },
+    {
+      "title": "Years 11–12 (2U/3U)",
+      "lessonDuration": "1.5-hour lesson / week",
+      "schedule": [
+        "Year X | Wednesday 4pm",
+        "Year X | Saturday 9am",
+        "Year X | Sunday 10am"
+      ]
+    },
+    {
+      "title": "Years 11–12 (4U)",
+      "lessonDuration": "1.5-hour lesson / week",
+      "schedule": [
+        "Year X | Wednesday 4pm",
+        "Year X | Saturday 9am",
+        "Year X | Sunday 10am"
+      ]
+    }
+  ]
+}
