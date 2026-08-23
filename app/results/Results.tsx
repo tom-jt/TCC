@@ -44,8 +44,8 @@ const Results = () => {
               <div
                 className={
                   category.columns === 2
-                    ? "grid grid-cols-1 sm:grid-cols-2 gap-x-8 sm:gap-x-24 lg:gap-x-48 gap-y-4"
-                    : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 lg:gap-x-48 gap-y-4"
+                    ? "grid grid-cols-1 sm:grid-cols-2 gap-x-8 sm:gap-x-12 lg:gap-x-16 gap-y-3"
+                    : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-12 lg:gap-x-16 gap-y-3"
                 }
               >
                 {category.entries.map((entry, index) => (
@@ -61,9 +61,14 @@ const Results = () => {
 
 const Result = ({ name, result }: StudentResult) => {
   return (
-    <div className="flex justify-between">
-      <p>{name}</p>
-      <p>{result}</p>
+    <div className="flex items-baseline gap-2">
+      <p className="shrink-0">{name}</p>
+      {/* Dotted leader ties the name to its mark across the column. */}
+      <span
+        aria-hidden
+        className="flex-1 border-b border-dotted border-neutral-300 dark:border-neutral-700"
+      />
+      <p className="shrink-0">{result}</p>
     </div>
   );
 };

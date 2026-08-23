@@ -44,21 +44,21 @@ const Contact = () => {
             <Lines lines={contact.address} />
           </span>
 
-          <div className="bg-zinc-50 w-full h-0.5"></div>
+          <div className="bg-neutral-300 dark:bg-neutral-700 w-full h-0.5"></div>
 
           <span>
             <em>Mobile</em>
             <Lines lines={contact.mobile} />
           </span>
 
-          <div className="bg-zinc-50 w-full h-0.5"></div>
+          <div className="bg-neutral-300 dark:bg-neutral-700 w-full h-0.5"></div>
 
           <span>
             <em>WeChat</em>
             <Lines lines={contact.wechat} />
           </span>
 
-          <div className="bg-zinc-50 w-full h-0.5"></div>
+          <div className="bg-neutral-300 dark:bg-neutral-700 w-full h-0.5"></div>
 
           <span className="gap-4">
             <em>Email</em>

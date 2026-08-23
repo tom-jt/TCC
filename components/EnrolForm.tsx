@@ -5,14 +5,76 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import content from "@/data/general.json";
-import type { GeneralContent } from "@/data/types";
+import contactContent from "@/data/contact.json";
+import type { ContactContent, GeneralContent } from "@/data/types";
 
 const general: GeneralContent = content;
+const contact: ContactContent = contactContent;
+
+/** Field ids paired with the label used for them in the generated email. */
+const EMAIL_SECTIONS: { heading: string; fields: [string, string][] }[] = [
+  {
+    heading: "Student",
+    fields: [
+      ["s_firstname", "First name"],
+      ["s_lastname", "Last name"],
+      ["s_addr", "Address"],
+      ["s_school", "School"],
+      ["s_yr", "School year"],
+      ["s_post", "Postcode"],
+      ["s_mobile", "Mobile"],
+      ["s_email", "Email"],
+    ],
+  },
+  {
+    heading: "First parent/guardian",
+    fields: [
+      ["p_firstname", "First name"],
+      ["p_lastname", "Last name"],
+      ["p_mobile", "Mobile"],
+      ["p_email", "Email"],
+    ],
+  },
+  {
+    heading: "Second parent/guardian",
+    fields: [
+      ["p2_firstname", "First name"],
+      ["p2_lastname", "Last name"],
+      ["p2_mobile", "Mobile"],
+      ["p2_email", "Email"],
+    ],
+  },
+];
 
 export default function EnrolForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    const form = new FormData(e.currentTarget);
+    const value = (key: string) => (form.get(key) as string | null)?.trim() ?? "";
+
+    const studentName = [value("s_firstname"), value("s_lastname")]
+      .filter(Boolean)
+      .join(" ");
+
+    const body = EMAIL_SECTIONS.map(({ heading, fields }) => {
+      const lines = fields
+        .filter(([id]) => value(id))
+        .map(([id, label]) => `${label}: ${value(id)}`);
+
+      // Skip the optional second guardian entirely when it's left blank.
+      return lines.length ? `${heading}\n${lines.join("\n")}` : "";
+    })
+      .filter(Boolean)
+      .join("\n\n");
+
+    const subject = studentName
+      ? `Enrolment request – ${studentName}`
+      : "Enrolment request";
+
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(
+      subject,
+    )}&body=${encodeURIComponent(body)}`;
   };
 
   return (
@@ -30,6 +92,8 @@ export default function EnrolForm() {
                 <Label htmlFor="s_firstname">First name</Label>
                 <Input
                   id="s_firstname"
+                  name="s_firstname"
+                  autoComplete="given-name"
                   placeholder="Jane"
                   type="text"
                   required
@@ -37,13 +101,22 @@ export default function EnrolForm() {
               </LabelInputContainer>
               <LabelInputContainer>
                 <Label htmlFor="s_lastname">Last name</Label>
-                <Input id="s_lastname" placeholder="Doe" type="text" required />
+                <Input
+                  id="s_lastname"
+                  name="s_lastname"
+                  autoComplete="family-name"
+                  placeholder="Doe"
+                  type="text"
+                  required
+                />
               </LabelInputContainer>
             </div>
             <LabelInputContainer>
               <Label htmlFor="s_addr">Address</Label>
               <Input
                 id="s_addr"
+                name="s_addr"
+                autoComplete="street-address"
                 placeholder="1 Example Street, Sydney NSW"
                 type="text"
               />
@@ -52,6 +125,7 @@ export default function EnrolForm() {
               <Label htmlFor="s_school">School</Label>
               <Input
                 id="s_school"
+                name="s_school"
                 placeholder="Example High School"
                 type="text"
                 required
@@ -62,6 +136,7 @@ export default function EnrolForm() {
                 <Label htmlFor="s_yr">School Year</Label>
                 <Input
                   id="s_yr"
+                  name="s_yr"
                   type="number"
                   placeholder="6–12"
                   min={6}
@@ -73,6 +148,8 @@ export default function EnrolForm() {
                 <Label htmlFor="s_post">Postcode</Label>
                 <Input
                   id="s_post"
+                  name="s_post"
+                  autoComplete="postal-code"
                   placeholder="0000"
                   type="text"
                   inputMode="numeric"
@@ -86,6 +163,8 @@ export default function EnrolForm() {
               <Label htmlFor="s_mobile">Mobile Number</Label>
               <Input
                 id="s_mobile"
+                name="s_mobile"
+                autoComplete="tel"
                 placeholder="0412 345 678"
                 type="tel"
                 required
@@ -95,6 +174,8 @@ export default function EnrolForm() {
               <Label htmlFor="s_email">Email Address</Label>
               <Input
                 id="s_email"
+                name="s_email"
+                autoComplete="email"
                 placeholder="example@email.com"
                 type="email"
                 required
@@ -111,6 +192,7 @@ export default function EnrolForm() {
                   <Label htmlFor="p_firstname">First name</Label>
                   <Input
                     id="p_firstname"
+                    name="p_firstname"
                     placeholder="John"
                     type="text"
                     required
@@ -120,6 +202,7 @@ export default function EnrolForm() {
                   <Label htmlFor="p_lastname">Last name</Label>
                   <Input
                     id="p_lastname"
+                    name="p_lastname"
                     placeholder="Doe"
                     type="text"
                     required
@@ -130,6 +213,7 @@ export default function EnrolForm() {
                 <Label htmlFor="p_mobile">Mobile Number</Label>
                 <Input
                   id="p_mobile"
+                  name="p_mobile"
                   placeholder="0412 345 678"
                   type="tel"
                   required
@@ -139,6 +223,7 @@ export default function EnrolForm() {
                 <Label htmlFor="p_email">Email Address</Label>
                 <Input
                   id="p_email"
+                  name="p_email"
                   placeholder="example@email.com"
                   type="email"
                   required
@@ -150,21 +235,37 @@ export default function EnrolForm() {
               <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                 <LabelInputContainer>
                   <Label htmlFor="p2_firstname">First name</Label>
-                  <Input id="p2_firstname" placeholder="Jane" type="text" />
+                  <Input
+                    id="p2_firstname"
+                    name="p2_firstname"
+                    placeholder="Jane"
+                    type="text"
+                  />
                 </LabelInputContainer>
                 <LabelInputContainer>
                   <Label htmlFor="p2_lastname">Last name</Label>
-                  <Input id="p2_lastname" placeholder="Doe" type="text" />
+                  <Input
+                    id="p2_lastname"
+                    name="p2_lastname"
+                    placeholder="Doe"
+                    type="text"
+                  />
                 </LabelInputContainer>
               </div>
               <LabelInputContainer>
-                <Label htmlFor="p_mobile">Mobile Number</Label>
-                <Input id="p2_mobile" placeholder="0412 345 678" type="tel" />
+                <Label htmlFor="p2_mobile">Mobile Number</Label>
+                <Input
+                  id="p2_mobile"
+                  name="p2_mobile"
+                  placeholder="0412 345 678"
+                  type="tel"
+                />
               </LabelInputContainer>
               <LabelInputContainer>
-                <Label htmlFor="p_email">Email Address</Label>
+                <Label htmlFor="p2_email">Email Address</Label>
                 <Input
                   id="p2_email"
+                  name="p2_email"
                   placeholder="example@email.com"
                   type="email"
                 />
