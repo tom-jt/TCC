@@ -8,8 +8,9 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { scrollToId } from "../util";
 import content from "@/data/general.json";
 import type { GeneralContent } from "@/data/types";
@@ -27,14 +28,31 @@ interface NavBodyProps {
   visible?: boolean;
 }
 
+export interface NavItem {
+  name: string;
+  /** DOM id of the section to scroll to. */
+  id: string;
+  /** Real route that deep-links to the same section. */
+  path: string;
+}
+
 interface NavItemsProps {
-  items: {
-    name: string;
-    link: string;
-  }[];
+  items: NavItem[];
   className?: string;
   onItemClick?: () => void;
 }
+
+/**
+ * Nav links are real links to real routes, so middle-click, ctrl-click and
+ * "open in new tab" all work. Only an unmodified left click is intercepted and
+ * turned into a scroll.
+ */
+export const isPlainClick = (event: React.MouseEvent) =>
+  !event.metaKey &&
+  !event.ctrlKey &&
+  !event.shiftKey &&
+  !event.altKey &&
+  event.button === 0;
 
 interface MobileNavProps {
   children: React.ReactNode;
@@ -52,6 +70,7 @@ interface MobileNavMenuProps {
   className?: string;
   isOpen: boolean;
   onClose: () => void;
+  id?: string;
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
@@ -93,8 +112,9 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
     <motion.div
       animate={{
         backdropFilter: visible ? "blur(2px)" : "none",
+        // One quiet shadow and a hairline, rather than six stacked glows.
         boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+          ? "0 1px 0 0 rgba(23, 23, 23, 0.12), 0 8px 24px rgba(23, 23, 23, 0.06)"
           : "none",
         width: visible ? "70%" : "100%",
         y: visible ? -20 : 0,
@@ -105,7 +125,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-60 mx-auto hidden w-full max-w-screen lg:min-w-5xl xl:min-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
+        "relative z-60 mx-auto hidden w-full max-w-screen lg:min-w-5xl xl:min-w-7xl flex-row items-center justify-between self-start rounded-xs bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
         visible && "bg-zinc-50/80 dark:bg-neutral-950/80",
         className
       )}
@@ -127,24 +147,28 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
       )}
     >
       {items.map((item, idx) => (
-        <a
-          href={`#${item.link}`}
+        // prefetch={false}: every one of these routes renders the very same
+        // page, so there is nothing worth fetching ahead of time.
+        <Link
+          href={item.path}
+          prefetch={false}
           onMouseEnter={() => setHovered(idx)}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+            if (!isPlainClick(e)) return;
             e.preventDefault();
-            scrollToId(item.link);
+            scrollToId(item.id);
           }}
           className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 cursor-pointer"
-          key={`link-${idx}`}
+          key={item.id}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-xs bg-neutral-200/70 dark:bg-neutral-800"
             />
           )}
           <span className="relative z-20">{item.name}</span>
-        </a>
+        </Link>
       ))}
     </motion.div>
   );
@@ -155,13 +179,14 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
     <motion.div
       animate={{
         backdropFilter: visible ? "blur(2px)" : "none",
+        // One quiet shadow and a hairline, rather than six stacked glows.
         boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+          ? "0 1px 0 0 rgba(23, 23, 23, 0.12), 0 8px 24px rgba(23, 23, 23, 0.06)"
           : "none",
         width: visible ? "90%" : "100%",
         paddingRight: visible ? "12px" : "0px",
         paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        borderRadius: "2px",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -201,16 +226,47 @@ export const MobileNavMenu = ({
   className,
   isOpen,
   onClose,
+  id,
 }: MobileNavMenuProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Escape and a click outside both close the menu. Without these the only way
+  // out was the toggle itself, which is easy to miss on a small screen.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (menuRef.current?.contains(target)) return;
+      // Clicks on the toggle are its own business — closing here too would
+      // immediately undo the reopen.
+      if ((target as HTMLElement).closest?.("[data-mobile-nav-toggle]")) return;
+      onClose();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={menuRef}
+          id={id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-xs bg-white px-4 py-8 border border-hairline shadow-lg dark:bg-neutral-950",
             className
           )}
         >
@@ -221,35 +277,61 @@ export const MobileNavMenu = ({
   );
 };
 
+/**
+ * A real <button>. This used to hang onClick straight on the icon <svg>, which
+ * meant the mobile menu could not be opened by keyboard at all and had no
+ * accessible name.
+ */
 export const MobileNavToggle = ({
   isOpen,
   onClick,
+  controls,
 }: {
   isOpen: boolean;
   onClick: () => void;
+  controls?: string;
 }) => {
-  return isOpen ? <IconX onClick={onClick} /> : <IconMenu2 onClick={onClick} />;
+  return (
+    <button
+      type="button"
+      data-mobile-nav-toggle
+      onClick={onClick}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-expanded={isOpen}
+      aria-controls={controls}
+      className="cursor-pointer p-1 text-neutral-800 dark:text-neutral-200"
+    >
+      {isOpen ? (
+        <IconX aria-hidden="true" />
+      ) : (
+        <IconMenu2 aria-hidden="true" />
+      )}
+    </button>
+  );
 };
 
 export const NavbarLogo = () => {
   return (
-    <a
-      href="#home"
+    <Link
+      href="/"
+      prefetch={false}
       className="relative cursor-pointer z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
       onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!isPlainClick(e)) return;
         e.preventDefault();
         scrollToId("home");
       }}
     >
       <Image
         src={general.logo}
-        alt="Target Coaching College Logo"
+        alt=""
+        aria-hidden="true"
         className="dark:invert object-contain"
         width={50}
         height={50}
       />
       <span className="font-medium">Target Coaching College</span>
-    </a>
+    </Link>
   );
 };
 
@@ -271,15 +353,16 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"button">
 )) => {
   const baseStyles =
-    "px-4 py-2 rounded-md button bg-zinc-50 text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+    "px-4 py-2 rounded-xs button text-sm font-medium relative cursor-pointer transition-colors duration-200 inline-block text-center";
 
+  // Solid fills and hairlines instead of the stacked six-layer glow shadows
+  // these carried before.
   const variantStyles = {
-    primary:
-      "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    secondary: "bg-transparent shadow-none dark:text-white",
-    dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    gradient:
-      "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
+    primary: "btn-accent bg-accent-brand text-accent-contrast",
+    secondary:
+      "bg-transparent text-neutral-700 hover:text-neutral-950 dark:text-neutral-300 dark:hover:text-white",
+    dark: "bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-zinc-50 dark:text-neutral-900",
+    gradient: "btn-accent bg-accent-brand text-accent-contrast",
   };
 
   return (

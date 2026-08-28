@@ -1,4 +1,4 @@
-.navbarContainer > div {
+.navbarContainer > * {
   padding-top: calc(var(--spacing) * 40);
   position: relative;
   width: 100%;
