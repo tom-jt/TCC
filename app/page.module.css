@@ -1,4 +1,6 @@
-.navbarContainer > div {
+/* Spacing between the page's stacked sections. Matches any direct child, since
+   these are <section> elements rather than plain divs. */
+.navbarContainer > * {
   padding-top: calc(var(--spacing) * 40);
   position: relative;
   width: 100%;

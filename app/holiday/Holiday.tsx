@@ -1,6 +1,8 @@
-import SpotlightCard from "@/components/SpotlightCard";
+import Panel from "@/components/Panel";
+import SectionHeading from "@/components/SectionHeading";
 import { BicepsFlexed, ScrollText } from "lucide-react";
 import Image from "next/image";
+import Frame from "@/components/Frame";
 import content from "@/data/holiday.json";
 import type { HolidayContent } from "@/data/types";
 import { Fragment } from "react";
@@ -9,27 +11,38 @@ const holiday: HolidayContent = content;
 
 const Holiday = () => {
   return (
-    <div className="flex flex-col gap-24" id="holiday">
+    <section
+      className="flex flex-col gap-24"
+      id="holiday"
+      data-section
+      tabIndex={-1}
+    >
       <div className="flex flex-col md:flex-row md:justify-between gap-8 md:h-80">
         <div className="flex flex-col justify-center gap-12">
-          <h2 className="text-lg md:text-4xl max-w-4xl">Holiday Program</h2>
+          <SectionHeading>Holiday Program</SectionHeading>
           <p className="text-sm md:text-base max-w-sm">{holiday.intro}</p>
         </div>
-        <Image
-          width={1600}
-          height={900}
-          src={holiday.photo}
-          alt="Teachers and students interacting in classroom"
-          className="object-cover w-full md:w-1/2 rounded-2xl"
-        />
+        <Frame className="w-full md:w-1/2">
+          <Image
+            width={1600}
+            height={900}
+            src={holiday.photo}
+            alt={holiday.photoAlt}
+            sizes="(min-width: 1280px) 33vw, (min-width: 768px) 42vw, 83vw"
+            className="object-cover w-full h-full"
+          />
+        </Frame>
       </div>
-      <div className="flex flex-col md:flex-row gap-4 md:justify-between items-center">
-        <SpotlightCard
-          className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-          spotlightColor="rgba(0, 0, 229, 0.3)"
-        >
-          <BicepsFlexed size={36} />
-          <h3 className="text-lg md:text-2xl max-w-4xl">
+      {/* No items-center: it stops the panels stretching, which is what left
+          one card taller than the other. Stretch is the default. */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+        <Panel className="flex flex-1 flex-col gap-4">
+          <BicepsFlexed
+            size={32}
+            className="text-accent-brand"
+            aria-hidden="true"
+          />
+          <h3 className="text-xl md:text-2xl max-w-4xl">
             1-Week Intensive Program
           </h3>
           <p className="text-sm md:text-base max-w-sm">
@@ -43,18 +56,19 @@ const Holiday = () => {
               </Fragment>
             ))}
           </p>
-        </SpotlightCard>
-        <div className="w-64 h-1 md:h-64 md:w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
-        <SpotlightCard
-          className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-          spotlightColor="rgba(229, 0, 120, 0.3)"
-        >
-          <ScrollText size={36} />
-          <h3 className="text-lg md:text-2xl max-w-4xl">Mock Exams</h3>
+        </Panel>
+        <div className="w-24 h-px md:h-48 md:w-px shrink-0 self-center bg-hairline" />
+        <Panel className="flex flex-1 flex-col gap-4">
+          <ScrollText
+            size={32}
+            className="text-accent-brand"
+            aria-hidden="true"
+          />
+          <h3 className="text-xl md:text-2xl max-w-4xl">Mock Exams</h3>
           <p className="text-sm md:text-base max-w-sm">{holiday.mockExams}</p>
-        </SpotlightCard>
+        </Panel>
       </div>
-    </div>
+    </section>
   );
 };
 

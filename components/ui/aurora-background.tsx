@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
   children: ReactNode;
@@ -14,49 +14,50 @@ export const AuroraBackground = ({
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) => {
+  const auroraRef = useRef<HTMLDivElement>(null);
+
+  // The hero is one screen tall at the very top of a very long page, so for
+  // most of a visit the aurora animates somewhere nobody can see. Browsers do
+  // not reliably stop compositing an off-screen animation, so stop it here.
+  useEffect(() => {
+    const element = auroraRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        element.classList.toggle("aurora--paused", !entry.isIntersecting);
+      },
+      { rootMargin: "64px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <main className="h-full">
+    // A plain div, not <main>: this only wraps the hero, and the page's real
+    // <main> landmark lives in SitePage around all of the content.
+    <div className="flex w-full">
       <div
         className={cn(
-          "transition-bg relative flex h-full flex-col items-center justify-center bg-zinc-50 dark:bg-black",
-          className
+          "transition-bg relative flex h-full w-full flex-col items-center justify-center bg-zinc-50 dark:bg-black",
+          className,
         )}
         {...props}
       >
-        <div
-          className="absolute inset-0 overflow-hidden"
-          style={
-            {
-              "--aurora":
-                "repeating-linear-gradient(100deg,#3b82f6_10%,#a5b4fc_15%,#93c5fd_20%,#ddd6fe_25%,#60a5fa_30%)",
-              "--dark-gradient":
-                "repeating-linear-gradient(100deg,#000_0%,#000_7%,transparent_10%,transparent_12%,#000_16%)",
-              "--white-gradient":
-                "repeating-linear-gradient(100deg,#fff_0%,#fff_7%,transparent_10%,transparent_12%,#fff_16%)",
-
-              "--blue-300": "#93c5fd",
-              "--blue-400": "#60a5fa",
-              "--blue-500": "#3b82f6",
-              "--indigo-300": "#a5b4fc",
-              "--violet-200": "#ddd6fe",
-              "--black": "#000",
-              "--white": "#fff",
-              "--transparent": "transparent",
-            } as React.CSSProperties
-          }
-        >
+        {/* Decorative, and behind the content. `.aurora` is pointer-events-none:
+            an overlay here once swallowed every click on the hero's buttons. */}
+        <div ref={auroraRef} aria-hidden="true" className="aurora">
           <div
-            //   I'm sorry but this is what peak developer performance looks like // trigger warning
             className={cn(
-              `after:animate-aurora pointer-events-none absolute -inset-2.5 [background-image:var(--white-gradient),var(--aurora)] bg-size-[300%,200%] bg-position-[50%_50%,50%_50%] opacity-50 blur-[10px] invert filter will-change-transform [--aurora:repeating-linear-gradient(100deg,var(--blue-500)_10%,var(--indigo-300)_15%,var(--blue-300)_20%,var(--violet-200)_25%,var(--blue-400)_30%)] [--dark-gradient:repeating-linear-gradient(100deg,var(--black)_0%,var(--black)_7%,var(--transparent)_10%,var(--transparent)_12%,var(--black)_16%)] [--white-gradient:repeating-linear-gradient(100deg,var(--white)_0%,var(--white)_7%,var(--transparent)_10%,var(--transparent)_12%,var(--white)_16%)] after:absolute after:inset-0 after:[background-image:var(--white-gradient),var(--aurora)] after:[background-size:200%,_100%] after:[background-attachment:fixed] after:mix-blend-difference after:content-[""] dark:[background-image:var(--dark-gradient),var(--aurora)] dark:invert-0 after:dark:[background-image:var(--dark-gradient),var(--aurora)]`,
-
-              showRadialGradient &&
-                `mask-[radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`
+              "aurora__layer",
+              showRadialGradient && "aurora-masked",
             )}
-          ></div>
+          />
         </div>
+
         {children}
       </div>
-    </main>
+    </div>
   );
 };

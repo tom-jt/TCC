@@ -1,3 +1,4 @@
+import SectionHeading from "@/components/SectionHeading";
 import content from "@/data/results.json";
 import type { ResultsContent, StudentResult } from "@/data/types";
 
@@ -25,20 +26,18 @@ const Results = () => {
   ];
 
   return (
-    <div className="relative" id="results">
+    <section className="relative" id="results" data-section tabIndex={-1}>
       <div className="flex flex-col justify-between gap-12">
         <div className="flex flex-col gap-4">
-          <h2 className="text-lg md:text-4xl max-w-4xl">
-            Our Students&apos; Results
-          </h2>
-          <h3 className="text-md md:text-lg italic">{results.subheading}</h3>
+          <SectionHeading>Our Students&apos; Results</SectionHeading>
+          <p className="text-md md:text-lg italic">{results.subheading}</p>
         </div>
 
         {categories
           .filter((category) => category.entries.length > 0)
           .map((category) => (
             <div key={category.heading} className="flex flex-col gap-4">
-              <h3 className="text-lg md:text-2xl max-w-4xl">
+              <h3 className="text-xl md:text-2xl max-w-4xl">
                 {category.heading}
               </h3>
               <div
@@ -55,7 +54,7 @@ const Results = () => {
             </div>
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -68,7 +67,7 @@ const Result = ({ name, result }: StudentResult) => {
         aria-hidden
         className="flex-1 border-b border-dotted border-neutral-300 dark:border-neutral-700"
       />
-      <p className="shrink-0">{result}</p>
+      <p className="tabular shrink-0 font-medium text-accent-brand">{result}</p>
     </div>
   );
 };

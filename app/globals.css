@@ -6,8 +6,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-accent-brand: var(--accent-brand);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-hairline: var(--hairline);
+  --font-sans: var(--font-merriweather), Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -37,17 +40,19 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-2xl: calc(var(--radius) + 6px);
+  --radius-3xl: calc(var(--radius) + 8px);
+  --radius-4xl: calc(var(--radius) + 10px);
 }
 
 :root {
-  --radius: 0.625rem;
+  /* Sharpened from 0.625rem. Everything derived from it tightens with it, so
+     the whole interface squares up from one value. */
+  --radius: 0.125rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
@@ -79,6 +84,20 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
+
+  /* Secondary colour, taken from the ochre book in the logo. The light tone is
+     pulled dark enough to carry white text at 4.5:1. */
+  --accent-brand: #a06c1e;
+  --accent-contrast: #ffffff;
+  --hairline: rgba(23, 23, 23, 0.12);
+
+  /* Ambient page background (see .ambient below). */
+  --ambient-line: rgba(23, 23, 23, 0.055);
+  --ambient-accent: rgba(160, 108, 30, 0.1);
+  --ambient-veil: rgba(23, 23, 23, 0.03);
+
+  /* Clearance the fixed navbar needs above any section scrolled into view. */
+  --nav-offset: 6rem;
 }
 
 .dark {
@@ -113,6 +132,14 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+
+  --accent-brand: #d9a441;
+  --accent-contrast: #17120a;
+  --hairline: rgba(255, 255, 255, 0.14);
+
+  --ambient-line: rgba(255, 255, 255, 0.05);
+  --ambient-accent: rgba(217, 164, 65, 0.07);
+  --ambient-veil: rgba(255, 255, 255, 0.02);
 }
 
 @layer base {
@@ -125,6 +152,244 @@
   p {
     @apply text-neutral-700 dark:text-neutral-300;
   }
+
+  /* Anchor targets sit under a fixed navbar — keep their headings clear of it
+     rather than relying on each section's own padding to do the job. */
+  :target,
+  [data-section] {
+    scroll-margin-top: var(--nav-offset);
+  }
+
+  /* Sections receive focus after an in-page jump so keyboard users land there
+     too, but they should never show a focus ring for it. */
+  [data-section]:focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-800 dark:outline-neutral-200;
+  }
+
+  /* Figures line up in columns all over the results and timetable. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Ambient page background --------------------------------------------------
+   Replaces the two full-page particle canvases. No canvas, no animation frame
+   loop and no JavaScript: a sticky, viewport-sized stage, so the painted area
+   stays screen-sized however tall the page grows.
+
+   One ruled grid and one wash. The earlier version drifted three blue, indigo
+   and violet orbs around, which read as decoration for its own sake. The grid
+   is the sharp element here; the wash only tints the corner it sits in. */
+.ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* No overflow here: it would become the sticky child's scroll container. */
+}
+
+.ambient-stage {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Graph-paper ruling — crisp hairlines rather than a glow. */
+.ambient-grid {
+  position: absolute;
+  inset: -2px;
+  background-image:
+    linear-gradient(to right, var(--ambient-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ambient-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(
+    ellipse 78% 58% at 50% 42%,
+    #000 22%,
+    transparent 82%
+  );
+}
+
+/* A single ochre bloom in one corner and the faintest veil off the top edge.
+   Enough that the page isn't flat; not enough to read as "a gradient". */
+.ambient-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      64% 46% at 88% -4%,
+      var(--ambient-accent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(to bottom, var(--ambient-veil) 0%, transparent 38%);
+}
+
+/* Double rules -------------------------------------------------------------
+   The accent almost never appears as a single line. A thicker rule with a
+   thinner one a few pixels off it reads as deliberate framing; one lone line
+   reads as a stray highlight. Both directions are built from pseudo-elements
+   so a rule is a single empty span at the call site. */
+.rule-h {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.rule-h::before,
+.rule-h::after {
+  content: "";
+  display: block;
+  background: var(--accent-brand);
+}
+.rule-h::before {
+  height: 2px;
+}
+.rule-h::after {
+  height: 1px;
+  opacity: 0.65;
+}
+
+.rule-v {
+  display: flex;
+  gap: 3px;
+  align-self: stretch;
+}
+.rule-v::before,
+.rule-v::after {
+  content: "";
+  display: block;
+  background: var(--accent-brand);
+}
+.rule-v::before {
+  width: 2px;
+}
+.rule-v::after {
+  width: 1px;
+  opacity: 0.65;
+}
+
+/* Panels --------------------------------------------------------------------
+   The hover state is the same double rule as everything else: the border picks
+   up the accent and a second, thicker line springs outward from it. Declared
+   here rather than as utilities so the outline width and style are set
+   explicitly — an outline with a colour but no style never paints. */
+.panel {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: transparent;
+  outline-offset: 0;
+  transition:
+    outline-color 300ms ease,
+    outline-offset 300ms ease,
+    border-color 300ms ease;
+}
+
+.panel:hover,
+.panel:focus-within {
+  border-color: color-mix(in oklab, var(--accent-brand) 70%, transparent);
+  outline-color: color-mix(in oklab, var(--accent-brand) 45%, transparent);
+  outline-offset: 5px;
+}
+
+/* Buttons -------------------------------------------------------------------
+   Two hover moves, both in the same double-rule language as everything else:
+   a second accent line springs outward from the edge, and a soft sheen crosses
+   the face once. The outline is declared up front and only its colour and
+   offset change, so nothing reflows and the line appears to grow out of the
+   button rather than pop into place.
+
+   :focus-visible gets the same treatment — without it, declaring an outline
+   here would silently cancel the keyboard focus ring from the base layer. */
+.btn-accent,
+.btn-outline {
+  position: relative;
+  outline-style: solid;
+  outline-color: transparent;
+  outline-offset: 0;
+  transition:
+    outline-color 300ms ease,
+    outline-offset 300ms ease,
+    border-color 300ms ease,
+    transform 300ms ease;
+}
+
+.btn-accent {
+  overflow: hidden;
+  outline-width: 2px;
+}
+
+/* The sheen only animates on the way in: resetting instantly avoids a second
+   sweep backwards across the button when the pointer leaves. */
+.btn-accent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 62%
+  );
+  transform: translateX(-130%);
+  transition: transform 0s;
+}
+
+.btn-accent:hover::after,
+.btn-accent:focus-visible::after {
+  transform: translateX(130%);
+  transition: transform 800ms ease;
+}
+
+.btn-accent:hover,
+.btn-accent:focus-visible {
+  outline-color: var(--accent-brand);
+  outline-offset: 5px;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  outline-width: 1px;
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  border-color: var(--accent-brand);
+  outline-color: color-mix(in oklab, var(--accent-brand) 55%, transparent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-accent:hover,
+  .btn-accent:focus-visible,
+  .btn-outline:hover,
+  .btn-outline:focus-visible {
+    transform: none;
+  }
+  .btn-accent::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* One switch for every ambient or decorative animation on the site: the aurora
+   hero, the timeline beam and the theme-toggle wipe. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 ::view-transition-old(root),
@@ -133,18 +398,97 @@
   mix-blend-mode: normal;
 }
 
-@theme inline {
-  --animate-aurora: aurora 60s linear infinite;
-  @keyframes aurora {
-    from {
-      background-position:
-        50% 50%,
-        50% 50%;
-    }
-    to {
-      background-position:
-        350% 50%,
-        350% 50%;
-    }
+/* Aurora hero ---------------------------------------------------------------
+   The visual is unchanged from the original: one element carrying the wash,
+   with a second wash on its ::after blended into it, and the blur, invert and
+   opacity applied to that combination. That order matters — blending two
+   already-blurred layers instead produces a muddy grey and loses the colour
+   entirely, which is what an earlier attempt at this got wrong.
+
+   What changed is what animates. The drift used to run on
+   `background-position`, which cannot be composited: every frame repainted a
+   viewport-sized element and re-ran the blur over it. It now runs on
+   `transform`. `will-change` sits on the element that actually animates, and
+   `background-attachment: fixed` — which forced a repaint on every scroll —
+   is gone. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  --aurora-image: repeating-linear-gradient(
+    100deg,
+    #3b82f6 10%,
+    #a5b4fc 15%,
+    #93c5fd 20%,
+    #ddd6fe 25%,
+    #60a5fa 30%
+  );
+  --aurora-veil: repeating-linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 7%,
+    transparent 10%,
+    transparent 12%,
+    #fff 16%
+  );
+}
+
+.dark .aurora {
+  --aurora-veil: repeating-linear-gradient(
+    100deg,
+    #000 0%,
+    #000 7%,
+    transparent 10%,
+    transparent 12%,
+    #000 16%
+  );
+}
+
+.aurora__layer {
+  position: absolute;
+  inset: -10px;
+  background-image: var(--aurora-veil), var(--aurora-image);
+  background-size: 300% 200%;
+  background-position:
+    50% 50%,
+    50% 50%;
+  filter: blur(10px) invert(1);
+  opacity: 0.5;
+}
+
+.dark .aurora__layer {
+  filter: blur(10px);
+}
+
+.aurora__layer::after {
+  content: "";
+  position: absolute;
+  /* Oversized left and right so the drift never pulls an edge into view. */
+  inset: 0 -25%;
+  background-image: var(--aurora-veil), var(--aurora-image);
+  background-size: 200% 100%;
+  mix-blend-mode: difference;
+  will-change: transform;
+  animation: aurora-drift 40s ease-in-out infinite alternate;
+}
+
+.aurora-masked {
+  mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+}
+
+/* Nothing to animate while the hero is scrolled away — the observer in
+   aurora-background.tsx toggles this. */
+.aurora--paused .aurora__layer::after {
+  animation-play-state: paused;
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-8%, 0, 0);
+  }
+  to {
+    transform: translate3d(8%, 0, 0);
   }
 }

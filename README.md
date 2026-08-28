@@ -104,3 +104,68 @@ field at it — for example in `noticeboard.json`:
 ```
 
 The path always starts with a `/` and leaves out the word `public`.
+
+`classes.json` and `holiday.json` also have a `"photoAlt"` next to the photo.
+This is a short description of what the picture shows. It is never displayed,
+but it is read aloud to visitors using a screen reader and it is what Google
+uses to understand the image, so change it whenever you change the photo:
+
+```json
+"photo": "/images/ClassPhoto.jpg",
+"photoAlt": "Students working through problems in a Year 11 class"
+```
+
+Both currently say `PLACEHOLDER` because the photos are still stand-ins.
+
+### Change contact details for search engines
+
+`contact.json` has a `"postal"` block underneath the address:
+
+```json
+"postal": {
+  "street": "Suite 205, Level 2, 3 Carlingford Road",
+  "locality": "Epping",
+  "region": "NSW",
+  "postcode": "2121",
+  "country": "AU"
+}
+```
+
+This is the same address again, split into parts. Nobody sees it — it is what
+tells Google the school is a real business at a real address, which is how the
+site turns up in searches like "maths tutor Epping". If you change the address
+above, change it here too.
+
+## Every section has its own web address
+
+The site is one long page, but each section can also be linked to directly:
+
+| Address        | Opens at            |
+| -------------- | ------------------- |
+| `/`            | The top of the page |
+| `/noticeboard` | Noticeboard         |
+| `/classes`     | Class Arrangement   |
+| `/holiday`     | Holiday Program     |
+| `/results`     | Student Results     |
+| `/enrol`       | Enrol               |
+| `/contact`     | Contact details     |
+
+Send a parent `.../classes` and they land on the timetable. The address bar
+also updates by itself as you scroll, so you can always copy whatever is on
+screen and send it to someone.
+
+## Settings for whoever deploys the site
+
+These are set once, in the hosting service (Vercel, Netlify, and so on) — not
+in the `data/` files.
+
+| Setting                       | What it does                                                                             |
+| ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`        | The site's real web address, e.g. `https://targetcoaching.com.au`. Needed for Google and for link previews. |
+| `NEXT_PUBLIC_ENQUIRY_ENDPOINT`| Where the enrolment and enquiry forms send their answers.                                  |
+
+**Both should be set before the site goes live.** Without
+`NEXT_PUBLIC_ENQUIRY_ENDPOINT` the forms fall back to opening the visitor's
+email app, which silently does nothing on many phones — so enquiries can be
+lost without anyone knowing. Any service that accepts a form post will do
+(Formspree, Web3Forms, Basin).

@@ -1,7 +1,9 @@
 import { Timeline } from "@/components/ui/timeline";
 import { User, Users } from "lucide-react";
-import SpotlightCard from "@/components/SpotlightCard";
+import Panel from "@/components/Panel";
+import SectionHeading from "@/components/SectionHeading";
 import Image from "next/image";
+import Frame from "@/components/Frame";
 import ClassArrangementBlock from "@/components/ClassArrangementBlock";
 import content from "@/data/classes.json";
 import type { ClassesContent } from "@/data/types";
@@ -22,7 +24,7 @@ const Classes = () => {
   const timelineHeader = (
     <div className="flex flex-col md:flex-row md:justify-between gap-4">
       <div className="flex flex-col justify-center gap-4">
-        <h2 className="text-lg md:text-4xl max-w-4xl">Class Arrangement</h2>
+        <SectionHeading>Class Arrangement</SectionHeading>
         <h3 className="text-base md:text-lg">
           <em>{classes.termLabel}</em>
           <br />
@@ -30,64 +32,61 @@ const Classes = () => {
         </h3>
       </div>
 
-      <SpotlightCard
-        className="w-full md:w-1/2 bg-zinc-100 dark:bg-neutral-900 flex flex-col gap-4 border-none text-sm text-neutral-700 md:text-lg dark:text-neutral-300 text-left *:flex *:gap-2"
-        spotlightColor="rgba(255, 229, 0, 0.3)"
-      >
+      <Panel className="w-full md:w-1/2 bg-zinc-100/70 dark:bg-neutral-900/50 flex flex-col gap-3 text-sm text-neutral-700 md:text-base dark:text-neutral-300 text-left">
         {classes.features.map((feature, index) => (
-          <div key={index}>
-            <div>⭐</div>
-            <div>{feature}</div>
+          <div key={index} className="flex gap-3">
+            {/* A ruled accent tick rather than a ⭐ emoji. */}
+            <span aria-hidden="true" className="rule-h mt-2 w-3 shrink-0" />
+            <span>{feature}</span>
           </div>
         ))}
-      </SpotlightCard>
+      </Panel>
     </div>
   );
 
   return (
-    <div id="classes">
+    <section id="classes" data-section tabIndex={-1}>
       <div className="flex flex-col gap-24 pb-20">
         <div className="flex flex-col md:flex-row md:justify-between gap-8 md:h-80">
           <div className="flex flex-col justify-between gap-12">
-            <h2 className="text-lg md:text-4xl max-w-4xl">Our Classes</h2>
+            <SectionHeading>Our Classes</SectionHeading>
             <p className="text-sm md:text-base max-w-sm">{classes.intro}</p>
           </div>
-          <Image
-            width={1600}
-            height={900}
-            src={classes.photo}
-            alt="Teachers and students interacting in classroom"
-            className="object-cover w-full md:w-1/2 rounded-2xl"
-          />
+          <Frame className="w-full md:w-1/2">
+            <Image
+              width={1600}
+              height={900}
+              src={classes.photo}
+              alt={classes.photoAlt}
+              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 42vw, 83vw"
+              className="object-cover w-full h-full"
+            />
+          </Frame>
         </div>
-        <div className="flex flex-col md:flex-row gap-4 md:justify-between items-center">
-          <SpotlightCard
-            className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-            spotlightColor="rgba(255, 0, 229, 0.3)"
-          >
-            <Users size={36} />
-            <h3 className="text-lg md:text-2xl max-w-4xl">Group Lessons</h3>
+        {/* No items-center: it stops the panels stretching, which is what left
+          one card taller than the other. Stretch is the default. */}
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+          <Panel className="flex flex-1 flex-col gap-4">
+            <Users size={32} className="text-accent-brand" aria-hidden="true" />
+            <h3 className="text-xl md:text-2xl max-w-4xl">Group Lessons</h3>
             <p className="text-sm md:text-base max-w-sm">
               {classes.groupLessons}
             </p>
-          </SpotlightCard>
-          <div className="w-64 h-1 md:h-64 md:w-1 rounded-full bg-neutral-400 dark:bg-zinc-50" />
-          <SpotlightCard
-            className="bg-zinc-50 dark:bg-black flex flex-col gap-4 border-none"
-            spotlightColor="rgba(0, 229, 255, 0.3)"
-          >
-            <User size={36} />
-            <h3 className="text-lg md:text-2xl max-w-4xl">1-on-1 Lessons</h3>
+          </Panel>
+          <div className="w-24 h-px md:h-48 md:w-px shrink-0 self-center bg-hairline" />
+          <Panel className="flex flex-1 flex-col gap-4">
+            <User size={32} className="text-accent-brand" aria-hidden="true" />
+            <h3 className="text-xl md:text-2xl max-w-4xl">1-on-1 Lessons</h3>
             <p className="text-sm md:text-base max-w-sm">
               {classes.individualLessons}
             </p>
-          </SpotlightCard>
+          </Panel>
         </div>
       </div>
 
       {/* Class Arrangement */}
       <Timeline data={data} header={timelineHeader} />
-    </div>
+    </section>
   );
 };
 

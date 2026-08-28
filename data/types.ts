@@ -25,6 +25,8 @@ export interface ClassGroup {
 
 export interface ClassesContent {
   photo: string;
+  /** Description of the photo, read aloud to visitors using a screen reader. */
+  photoAlt: string;
   intro: string;
   groupLessons: string;
   individualLessons: string;
@@ -36,6 +38,8 @@ export interface ClassesContent {
 
 export interface HolidayContent {
   photo: string;
+  /** Description of the photo, read aloud to visitors using a screen reader. */
+  photoAlt: string;
   intro: string;
   intensiveIntro: string;
   intensiveDetails: string[];
@@ -56,10 +60,24 @@ export interface ResultsContent {
   advanced2: StudentResult[];
 }
 
+/**
+ * The address again, split into parts. Only search engines read this — it feeds
+ * the structured data that lets Google show the school as a local business.
+ */
+export interface PostalAddress {
+  street: string;
+  locality: string;
+  region: string;
+  postcode: string;
+  /** Two-letter country code, e.g. "AU". */
+  country: string;
+}
+
 export interface ContactContent {
   buildingPhoto: string;
   mapUrl: string;
   address: string[];
+  postal: PostalAddress;
   mobile: string[];
   wechat: string[];
   email: string;

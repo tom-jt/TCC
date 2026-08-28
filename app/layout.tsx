@@ -2,22 +2,39 @@ import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 import "@/app/globals.css";
 import { ThemeSync } from "@/components/ThemeSync";
+import OrganizationJsonLd from "@/components/OrganizationJsonLd";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
   subsets: ["latin"],
 });
 
-const siteName = "Target Coaching College";
-const siteDescription = "High School Mathematics Specialists at Epping";
-
 export const metadata: Metadata = {
-  title: siteName,
+  // Required for canonical URLs, the sitemap and the share image to resolve to
+  // absolute URLs. Set NEXT_PUBLIC_SITE_URL in the hosting environment.
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
   description: siteDescription,
+  applicationName: siteName,
+  keywords: [
+    "maths tutoring Epping",
+    "HSC maths tutor",
+    "Extension 2 Mathematics",
+    "Extension 1 Mathematics",
+    "Advanced Mathematics",
+    "Year 12 maths coaching",
+    "Epping NSW tutoring",
+  ],
+  alternates: { canonical: "/" },
   openGraph: {
     title: siteName,
     description: siteDescription,
     siteName,
+    url: siteUrl,
     locale: "en_AU",
     type: "website",
   },
@@ -45,12 +62,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-AU" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${merriweather.className} antialiased`}>
+      <body
+        className={`${merriweather.variable} ${merriweather.className} antialiased`}
+      >
         <ThemeSync />
+        <OrganizationJsonLd />
         {children}
       </body>
     </html>
