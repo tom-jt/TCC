@@ -86,9 +86,21 @@ const SectionRouting = ({ initialSection }: SectionRoutingProps) => {
 
           const section = SECTIONS.find((candidate) => candidate.id === id);
           if (section && window.location.pathname !== section.path) {
+            // The query string is carried across rather than dropped. Only the
+            // path tracks the scroll position; anything in the query is page
+            // state that outlives it — the enrolment form's open tab, for one,
+            // which would otherwise be wiped from the address bar the moment
+            // the visitor scrolled, leaving the URL describing a form that is
+            // not the one on screen.
+            //
             // replaceState: scrolling past six sections should not leave six
             // entries in the history for the visitor to back out through.
-            window.history.replaceState(null, "", section.path);
+            const { search, hash } = window.location;
+            window.history.replaceState(
+              null,
+              "",
+              `${section.path}${search}${hash}`,
+            );
           }
         }
       },

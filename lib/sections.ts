@@ -67,7 +67,7 @@ export const SECTIONS: SiteSection[] = [
     path: "/enrol",
     title: "Enrol",
     description:
-      "Enquire about a place or send a full enrolment request to Target Coaching College in Epping.",
+      "Send an enquiry or a full enrolment request to Target Coaching College in Epping.",
   },
   {
     id: "contact",

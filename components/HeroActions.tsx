@@ -17,7 +17,12 @@ const HeroActions = () => {
   const handleClick =
     (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
       // Leave modified clicks alone so the browser can open them in a new tab.
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0)
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.button !== 0
+      )
         return;
 
       event.preventDefault();
@@ -32,7 +37,7 @@ const HeroActions = () => {
         onClick={handleClick("enrol")}
         className="btn-accent rounded-xs px-6 py-3 text-base font-medium bg-accent-brand text-accent-contrast text-center"
       >
-        Enquire about a place
+        Enquire Now
       </Link>
       <Link
         href={getSection("classes")?.path ?? "/classes"}
@@ -40,7 +45,7 @@ const HeroActions = () => {
         onClick={handleClick("classes")}
         className="btn-outline rounded-xs px-6 py-3 text-base font-medium border border-neutral-400 text-neutral-900 dark:border-neutral-600 dark:text-zinc-50 text-center"
       >
-        See class times
+        See Class Times
       </Link>
     </div>
   );
