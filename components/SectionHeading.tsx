@@ -8,9 +8,10 @@ interface SectionHeadingProps extends React.PropsWithChildren {
 /**
  * A section title with a short accent rule above it.
  *
- * The rule is the one place the ochre appears at full strength on most
+ * The rule is the one place the accent appears at full strength on most
  * screens, and it does a job rather than decorating: it marks where a section
- * starts, which the page previously left entirely to whitespace.
+ * starts, which the page previously left entirely to whitespace. It carries
+ * the same iridescent sweep as the hero — see `--holo` in globals.css.
  */
 const SectionHeading = ({ children, className = "" }: SectionHeadingProps) => {
   return (

@@ -17,7 +17,7 @@ const general: GeneralContent = generalContent;
  * Everything is derived from data/contact.json so it can never drift out of
  * sync with the address shown in the footer.
  */
-const OrganizationJsonLd = () => {
+const OrganisationJsonLd = () => {
   const { postal } = contact;
 
   const schema = {
@@ -59,4 +59,4 @@ const OrganizationJsonLd = () => {
   );
 };
 
-export default OrganizationJsonLd;
+export default OrganisationJsonLd;

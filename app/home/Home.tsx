@@ -1,5 +1,6 @@
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { GridFieldBackground } from "@/components/ui/grid-field-background";
 import HeroActions from "@/components/HeroActions";
+import HoloText from "@/components/HoloText";
 import content from "@/data/general.json";
 import type { GeneralContent } from "@/data/types";
 
@@ -16,12 +17,15 @@ const Home = () => {
       tabIndex={-1}
       aria-label="Target Coaching College"
     >
-      <AuroraBackground>
+      <GridFieldBackground>
         <div className="relative flex flex-col text-center items-center gap-6 px-6">
           <h1 className="text-4xl/tight sm:text-5xl/tight lg:text-7xl/tight text-balance">
-            Target Coaching College
-            <br />
-            <span lang="zh">高老师补习学校</span>
+            <HoloText
+              lines={[
+                { text: "Target Coaching College" },
+                { text: "高老师补习学校", lang: "zh" },
+              ]}
+            />
           </h1>
           <p className="text-lg sm:text-xl lg:text-3xl text-neutral-800 dark:text-neutral-200 text-balance">
             {general.heroTagline}
@@ -29,7 +33,7 @@ const Home = () => {
 
           <HeroActions />
         </div>
-      </AuroraBackground>
+      </GridFieldBackground>
     </section>
   );
 };

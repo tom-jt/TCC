@@ -7,6 +7,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent-brand: var(--accent-brand);
+  --color-accent-brand-2: var(--accent-brand-2);
+  --color-accent-brand-3: var(--accent-brand-3);
   --color-accent-contrast: var(--accent-contrast);
   --color-hairline: var(--hairline);
   --font-sans: var(--font-merriweather), Georgia, "Times New Roman", serif;
@@ -85,16 +87,77 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
 
-  /* Secondary colour, taken from the ochre book in the logo. The light tone is
-     pulled dark enough to carry white text at 4.5:1. */
-  --accent-brand: #a06c1e;
+  /* Accent: ochre, and two variants of it. The same three tints light the
+     hero's grid, so the buttons, rules and frames downpage carry the same
+     light as the top of the site.
+
+     Yellow ochre at hue 36, gold ochre at 44, old gold at 52 — a narrow sweep,
+     because the point is one pigment catching light at different angles rather
+     than three colours in a row.
+
+     Lightness is not a free choice here. A warm hue reads far lighter than a
+     cool one at the same nominal lightness, so these are not a plain rotation
+     of the tones they replaced: each was re-solved down the lightness axis
+     until it held the *contrast* its predecessor held. #7c561d carries white
+     at 6.6:1, exactly as the tone before it did. */
+  --accent-brand: #7c561d;
+  --accent-brand-2: #886d25;
+  --accent-brand-3: #8c7f2c;
   --accent-contrast: #ffffff;
-  --hairline: rgba(23, 23, 23, 0.12);
+  --hairline: rgba(80, 61, 33, 0.14);
+
+  /* The accent as light rather than as paint: one sweep through all three
+     tints, used wherever the accent draws a line instead of filling a shape.
+
+     Declared once, in :root only. A var() inside a custom property resolves on
+     the element the property is declared on, not on the element that uses it —
+     so this works solely because `.dark` is toggled on <html>, which *is*
+     :root. The dark rule wins on specificity there and these pick up the dark
+     accents. Move the theme class to <body> and every rule on the site turns
+     permanently light. */
+  --holo: linear-gradient(
+    100deg,
+    var(--accent-brand) 0%,
+    var(--accent-brand-2) 54%,
+    var(--accent-brand-3) 100%
+  );
+  --holo-reverse: linear-gradient(
+    100deg,
+    var(--accent-brand-3) 0%,
+    var(--accent-brand-2) 46%,
+    var(--accent-brand) 100%
+  );
+  --holo-v: linear-gradient(
+    190deg,
+    var(--accent-brand) 0%,
+    var(--accent-brand-2) 54%,
+    var(--accent-brand-3) 100%
+  );
+  --holo-v-reverse: linear-gradient(
+    190deg,
+    var(--accent-brand-3) 0%,
+    var(--accent-brand-2) 46%,
+    var(--accent-brand) 100%
+  );
 
   /* Ambient page background (see .ambient below). */
-  --ambient-line: rgba(23, 23, 23, 0.055);
-  --ambient-accent: rgba(160, 108, 30, 0.1);
-  --ambient-veil: rgba(23, 23, 23, 0.03);
+  --ambient-line: rgba(80, 61, 33, 0.035);
+  --ambient-line-major: rgba(80, 61, 33, 0.08);
+  --ambient-accent: rgba(124, 86, 29, 0.1);
+  --ambient-accent-2: rgba(140, 127, 44, 0.07);
+  --ambient-veil: rgba(80, 61, 33, 0.03);
+
+  /* Ruling. Five minor squares to a major one, as on real graph paper. The
+     whole site is drawn on this: the hero at full strength, every section
+     below it far quieter. grid-field-background.tsx reads --rule-minor back
+     out of here to snap its crosshair, so one figure governs all of it. */
+  --rule-minor: 18px;
+  --rule-major: 90px;
+
+  /* How far the hero's cursor lens reaches. The heading letters use the same
+     figure, so text and background light up together rather than on two
+     unrelated schedules. */
+  --halo-radius: 250px;
 
   /* Clearance the fixed navbar needs above any section scrolled into view. */
   --nav-offset: 6rem;
@@ -133,13 +196,22 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
 
-  --accent-brand: #d9a441;
-  --accent-contrast: #17120a;
-  --hairline: rgba(255, 255, 255, 0.14);
+  /* On a dark ground the three keep their saturation and lightness and only
+     turn warm — no contrast repair needed, because a warm hue at a given
+     lightness reads lighter than a cool one and every ratio here improves.
+     #ffd699 reads at 14.5:1 against the page and takes the deep --accent-
+     contrast at 10.3:1 when it is a button. */
+  --accent-brand: #ffd699;
+  --accent-brand-2: #ffe499;
+  --accent-brand-3: #fff8cc;
+  --accent-contrast: #332a15;
+  --hairline: rgba(255, 246, 230, 0.16);
 
-  --ambient-line: rgba(255, 255, 255, 0.05);
-  --ambient-accent: rgba(217, 164, 65, 0.07);
-  --ambient-veil: rgba(255, 255, 255, 0.02);
+  --ambient-line: rgba(255, 246, 230, 0.032);
+  --ambient-line-major: rgba(255, 246, 230, 0.075);
+  --ambient-accent: rgba(255, 214, 153, 0.1);
+  --ambient-accent-2: rgba(255, 228, 153, 0.07);
+  --ambient-veil: rgba(255, 246, 230, 0.025);
 }
 
 @layer base {
@@ -181,9 +253,11 @@
    loop and no JavaScript: a sticky, viewport-sized stage, so the painted area
    stays screen-sized however tall the page grows.
 
-   One ruled grid and one wash. The earlier version drifted three blue, indigo
-   and violet orbs around, which read as decoration for its own sake. The grid
-   is the sharp element here; the wash only tints the corner it sits in. */
+   The hero's graph paper, inked much lighter: the same ruling from the same
+   .ruled class, the same iridescence resting in it, and two washes off the top
+   corners. The earlier version drifted coloured orbs around, which read as
+   decoration for its own sake. The ruling is the sharp element here; nothing
+   below the hero moves. */
 .ambient {
   position: absolute;
   inset: 0;
@@ -199,14 +273,48 @@
   overflow: hidden;
 }
 
-/* Graph-paper ruling — crisp hairlines rather than a glow. */
-.ambient-grid {
+/* The ruling itself — crisp hairlines rather than a glow.
+
+   Shared with the hero's `.grid-field__paper`: same geometry, same major/minor
+   hierarchy, different ink. Declaring it once is the point. Each user sets its
+   own --rule-line and --rule-line-major and nothing else. */
+.ruled {
+  background-image:
+    linear-gradient(to right, var(--rule-line-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule-line-major) 1px, transparent 1px),
+    linear-gradient(to right, var(--rule-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule-line) 1px, transparent 1px);
+  background-size:
+    var(--rule-major) var(--rule-major),
+    var(--rule-major) var(--rule-major),
+    var(--rule-minor) var(--rule-minor),
+    var(--rule-minor) var(--rule-minor);
+}
+
+/* The same grid as an alpha mask, so a light layer underneath shows only where
+   there is a ruling to catch it. The major rules mask at full alpha and the
+   minor ones at less, so light favours the heavy rules exactly as ink does.
+   Mask layers composite with `add` by default, so the two directions union
+   into a lattice and overlaps clamp at 1; no `mask-composite` needed. */
+.ruled-mask {
+  mask-image:
+    linear-gradient(to right, #000 1px, transparent 1px),
+    linear-gradient(to bottom, #000 1px, transparent 1px),
+    linear-gradient(to right, rgba(0, 0, 0, 0.42) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 1px, transparent 1px);
+  mask-size:
+    var(--rule-major) var(--rule-major),
+    var(--rule-major) var(--rule-major),
+    var(--rule-minor) var(--rule-minor),
+    var(--rule-minor) var(--rule-minor);
+}
+
+/* Holds the page's ruling and the tint that sits in it, so both fade out
+   together towards the edges. The vignette used to live on the grid alone;
+   with a second layer to match it has to move up a level. */
+.ambient-rules {
   position: absolute;
   inset: -2px;
-  background-image:
-    linear-gradient(to right, var(--ambient-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--ambient-line) 1px, transparent 1px);
-  background-size: 64px 64px;
   mask-image: radial-gradient(
     ellipse 78% 58% at 50% 42%,
     #000 22%,
@@ -214,8 +322,35 @@
   );
 }
 
-/* A single ochre bloom in one corner and the faintest veil off the top edge.
-   Enough that the page isn't flat; not enough to read as "a gradient". */
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  --rule-line: var(--ambient-line);
+  --rule-line-major: var(--ambient-line-major);
+}
+
+/* The same iridescence as the hero, held to a whisper.
+
+   No sweep down here. The hero is a place to look at; everything below it is a
+   place to read, and light crossing the page every few seconds behind a
+   timetable is an irritation rather than an effect. This is the still version:
+   colour resting in the rules, and nothing moving at all. */
+.ambient-foil {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background: linear-gradient(
+    118deg,
+    color-mix(in oklab, var(--accent-brand) 30%, transparent) 0%,
+    color-mix(in oklab, var(--accent-brand-2) 24%, transparent) 52%,
+    color-mix(in oklab, var(--accent-brand-3) 30%, transparent) 100%
+  );
+}
+
+/* Two blooms off opposite top corners — ochre on one side, old gold on the
+   other, the same two tints that light the hero's grid — and the faintest veil
+   off the top edge. Enough that the page isn't flat; not enough
+   to read as "a gradient". */
 .ambient-wash {
   position: absolute;
   inset: 0;
@@ -224,6 +359,11 @@
       64% 46% at 88% -4%,
       var(--ambient-accent) 0%,
       transparent 62%
+    ),
+    radial-gradient(
+      52% 40% at 6% 2%,
+      var(--ambient-accent-2) 0%,
+      transparent 66%
     ),
     linear-gradient(to bottom, var(--ambient-veil) 0%, transparent 38%);
 }
@@ -238,18 +378,22 @@
   flex-direction: column;
   gap: 3px;
 }
+/* Each of the two lines runs the sweep in the opposite direction, so the pair
+   reads as one piece of light split in two rather than as a line and its
+   echo. */
 .rule-h::before,
 .rule-h::after {
   content: "";
   display: block;
-  background: var(--accent-brand);
 }
 .rule-h::before {
   height: 2px;
+  background: var(--holo);
 }
 .rule-h::after {
   height: 1px;
   opacity: 0.65;
+  background: var(--holo-reverse);
 }
 
 .rule-v {
@@ -261,14 +405,15 @@
 .rule-v::after {
   content: "";
   display: block;
-  background: var(--accent-brand);
 }
 .rule-v::before {
   width: 2px;
+  background: var(--holo-v);
 }
 .rule-v::after {
   width: 1px;
   opacity: 0.65;
+  background: var(--holo-v-reverse);
 }
 
 /* Panels --------------------------------------------------------------------
@@ -319,19 +464,47 @@
 .btn-accent {
   overflow: hidden;
   outline-width: 2px;
+  /* Needed for the ::before wash below: without a stacking context here, its
+     negative z-index would drop it behind the page rather than behind the
+     button's own label. */
+  isolation: isolate;
+}
+
+/* A flat accent fill next to an iridescent hero looked like a different site.
+   This lays the other two tints across the face of the button, leaving the
+   base --accent-brand showing at the left edge — the button ends up a slice of
+   the same sweep the rules use.
+
+   z-index -1 puts it above the button's background colour but below its label,
+   so the text keeps the contrast the accent pair was chosen for. */
+.btn-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    112deg,
+    transparent 0%,
+    color-mix(in oklab, var(--accent-brand-2) 70%, transparent) 58%,
+    color-mix(in oklab, var(--accent-brand-3) 55%, transparent) 100%
+  );
 }
 
 /* The sheen only animates on the way in: resetting instantly avoids a second
-   sweep backwards across the button when the pointer leaves. */
+   sweep backwards across the button when the pointer leaves. Its fringes are
+   tinted rather than plain white, so the highlight refracts on the way past
+   instead of just glaring. */
 .btn-accent::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     105deg,
-    transparent 38%,
-    rgba(255, 255, 255, 0.3) 50%,
-    transparent 62%
+    transparent 34%,
+    rgba(179, 217, 255, 0.28) 44%,
+    rgba(255, 255, 255, 0.42) 50%,
+    rgba(255, 204, 255, 0.28) 56%,
+    transparent 66%
   );
   transform: translateX(-130%);
   transition: transform 0s;
@@ -368,6 +541,7 @@
   .btn-outline:focus-visible {
     transform: none;
   }
+  /* Only the travelling sheen goes; ::before is a static fill, not motion. */
   .btn-accent::after {
     display: none;
   }
@@ -379,8 +553,8 @@
   }
 }
 
-/* One switch for every ambient or decorative animation on the site: the aurora
-   hero, the timeline beam and the theme-toggle wipe. */
+/* One switch for every ambient or decorative animation on the site: the hero's
+   sheen, the timeline beam and the theme-toggle wipe. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -398,97 +572,365 @@
   mix-blend-mode: normal;
 }
 
-/* Aurora hero ---------------------------------------------------------------
-   The visual is unchanged from the original: one element carrying the wash,
-   with a second wash on its ::after blended into it, and the blur, invert and
-   opacity applied to that combination. That order matters — blending two
-   already-blurred layers instead produces a muddy grey and loses the colour
-   entirely, which is what an earlier attempt at this got wrong.
+/* Grid field hero -----------------------------------------------------------
+   Graph paper that catches the light. The composition and the pointer work are
+   explained in grid-field-background.tsx; this is the drawing.
 
-   What changed is what animates. The drift used to run on
-   `background-position`, which cannot be composited: every frame repainted a
-   viewport-sized element and re-ran the blur over it. It now runs on
-   `transform`. `will-change` sits on the element that actually animates, and
-   `background-attachment: fixed` — which forced a repaint on every scroll —
-   is gone. */
-.aurora {
+   The one idea everything here is built on: every light layer is masked by the
+   grid, so colour can only ever exist inside a ruling. A sheen sweeps across
+   and the lines it passes light up like foil; the squares between them stay
+   empty. Painting light *over* the grid instead would just be a coloured cloud
+   with a grid drawn on it, which is what an aurora already was.
+
+   That means two elements everywhere, never one: the outer element carries the
+   grid mask and holds perfectly still, the inner element carries the light and
+   moves. Both on one element would drag the grid along with the light. It is
+   also what keeps this cheap — a mask that never changes is rasterised once,
+   and only a transform is left to animate. Nothing here animates a mask
+   position, a gradient, or a layout property; the pointer moves transforms and
+   nothing else. */
+.grid-field {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 
-  --aurora-image: repeating-linear-gradient(
-    100deg,
-    #3b82f6 10%,
-    #a5b4fc 15%,
-    #93c5fd 20%,
-    #ddd6fe 25%,
-    #60a5fa 30%
-  );
-  --aurora-veil: repeating-linear-gradient(
-    100deg,
-    #fff 0%,
-    #fff 7%,
-    transparent 10%,
-    transparent 12%,
-    #fff 16%
+  /* The hero is the same paper as the rest of the site, inked harder. The
+     ruling itself comes from .ruled / .ruled-mask and --rule-minor in :root. */
+  --rule-line: rgba(80, 61, 33, 0.07);
+  --rule-line-major: rgba(80, 61, 33, 0.15);
+  --grid-scrim: #fafafa;
+
+  --foil-opacity: 0.8;
+  --lens-opacity: 0.9;
+
+  /* Written by the rAF loop in the component, in pixels. The starting values
+     only matter until the pointer first arrives, and --lit keeps the layers
+     that use them invisible until it does. */
+  --lens-x: 0px;
+  --lens-y: 0px;
+  --cross-x: 0px;
+  --cross-y: 0px;
+  --lit: 0;
+
+  /* Clears the band the navbar occupies. Absolute rather than a percentage on
+     purpose: the navbar sits at a fixed `top-20`, so on a short viewport a
+     percentage would let the grid climb back under its links. */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 150px,
+    #000 300px,
+    #000 66%,
+    transparent 97%
   );
 }
 
-.dark .aurora {
-  --aurora-veil: repeating-linear-gradient(
-    100deg,
-    #000 0%,
-    #000 7%,
-    transparent 10%,
-    transparent 12%,
-    #000 16%
-  );
+.dark .grid-field {
+  --rule-line: rgba(255, 246, 230, 0.06);
+  --rule-line-major: rgba(255, 246, 230, 0.13);
+  --grid-scrim: #000000;
+
+  --foil-opacity: 0.95;
+  --lens-opacity: 1;
 }
 
-.aurora__layer {
+.grid-field--lit {
+  --lit: 1;
+}
+
+/* The only layer that paints lines; the light layers below reuse the same
+   geometry as a mask instead. Both come from .ruled / .ruled-mask. */
+.grid-field__paper {
   position: absolute;
-  inset: -10px;
-  background-image: var(--aurora-veil), var(--aurora-image);
-  background-size: 300% 200%;
-  background-position:
-    50% 50%,
-    50% 50%;
-  filter: blur(10px) invert(1);
-  opacity: 0.5;
+  inset: 0;
 }
 
-.dark .aurora__layer {
-  filter: blur(10px);
+.grid-field__foil,
+.grid-field__lens {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
-.aurora__layer::after {
+.grid-field__foil {
+  opacity: var(--foil-opacity);
+}
+
+/* A permanent trace of colour in the rules, so the field is never entirely
+   grey between sweeps. ::before rather than ::after so it paints *under* the
+   sweep — on top it would dull the thing it is meant to support. It should
+   read as the paper having a tint, not as a second sweep. */
+.grid-field__foil::before {
   content: "";
   position: absolute;
-  /* Oversized left and right so the drift never pulls an edge into view. */
-  inset: 0 -25%;
-  background-image: var(--aurora-veil), var(--aurora-image);
-  background-size: 200% 100%;
-  mix-blend-mode: difference;
-  will-change: transform;
-  animation: aurora-drift 40s ease-in-out infinite alternate;
+  inset: 0;
+  background: linear-gradient(
+    118deg,
+    color-mix(in oklab, var(--accent-brand) 26%, transparent) 0%,
+    color-mix(in oklab, var(--accent-brand-2) 22%, transparent) 55%,
+    color-mix(in oklab, var(--accent-brand-3) 26%, transparent) 100%
+  );
 }
 
-.aurora-masked {
-  mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+/* The sheen. A wide diagonal band travelling across the field — the rules it
+   crosses light up, then go quiet behind it. A sweep rather than a rotation
+   because that is what light on foil does, and because translating a band is
+   the cheapest thing a compositor can be asked to do.
+
+   Far wider than the field, so the band is clear of one side before it is
+   asked to appear on the other. */
+.grid-field__foil-light {
+  position: absolute;
+  inset: -20% -100%;
+  background: linear-gradient(
+    108deg,
+    transparent 34%,
+    color-mix(in oklab, var(--accent-brand) 85%, transparent) 42%,
+    color-mix(in oklab, var(--accent-brand-2) 90%, transparent) 50%,
+    color-mix(in oklab, var(--accent-brand-3) 85%, transparent) 58%,
+    transparent 66%
+  );
+  will-change: transform;
+  animation: grid-sheen 19s ease-in-out infinite;
+}
+
+/* The lens ------------------------------------------------------------------
+   The grid mask stays on the full-bleed parent, still; only the light inside
+   it moves. The earlier version put a radial gradient at the cursor in the
+   parent's own mask, which meant regenerating a viewport-sized mask every
+   frame — the one thing that must not happen on pointer move.
+
+   So the falloff travels with the light instead: a fixed box the size of the
+   lens, carrying the colour as its background and its own radial mask, moved
+   by transform alone. The mask never changes; the transform is all the
+   compositor has to deal with. */
+.grid-field__lens {
+  opacity: calc(var(--lit) * var(--lens-opacity));
+  transition: opacity 420ms ease;
+}
+
+.grid-field__lens-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--halo-radius) * 2);
+  height: calc(var(--halo-radius) * 2);
+  background: linear-gradient(
+    118deg,
+    var(--accent-brand) 0%,
+    var(--accent-brand-2) 52%,
+    var(--accent-brand-3) 100%
+  );
+  mask-image: radial-gradient(
+    closest-side,
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 44%,
+    transparent 78%
+  );
+  /* Deliberately not transitioned: the easing already happens in the rAF loop,
+     and a transition on top of it would drag the light a second time. */
+  transform: translate3d(var(--lens-x), var(--lens-y), 0) translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* The crosshair -------------------------------------------------------------
+   Snapped to the ruling by the component, so these sit exactly on a grid line
+   rather than between two. Both fade out towards their ends, which is what
+   keeps them from reading as a full-screen cross.
+
+   Positioned at the origin and moved by transform, not by `left`/`top`:
+   animating an offset would put layout on the critical path of every pointer
+   event. */
+.grid-field__crosshair {
+  position: absolute;
+  inset: 0;
+  opacity: calc(var(--lit) * 0.5);
+  transition: opacity 420ms ease;
+}
+
+.grid-field__crosshair::before,
+.grid-field__crosshair::after {
+  content: "";
+  position: absolute;
+  will-change: transform;
+}
+
+.grid-field__crosshair::before {
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  transform: translate3d(var(--cross-x), 0, 0);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accent-brand) 34%,
+    var(--accent-brand-2) 66%,
+    transparent 100%
+  );
+}
+
+.grid-field__crosshair::after {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: translate3d(0, var(--cross-y), 0);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--accent-brand-2) 34%,
+    var(--accent-brand-3) 66%,
+    transparent 100%
+  );
+}
+
+/* Keeps the title, tagline and buttons off the ruling without dimming the
+   field everywhere else. The page's own background, faded to nothing well
+   before the edges, so it reads as a clearing rather than as a panel. */
+.grid-field__scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 46% 30% at 50% 55%,
+    var(--grid-scrim) 0%,
+    color-mix(in srgb, var(--grid-scrim) 62%, transparent) 44%,
+    transparent 76%
+  );
 }
 
 /* Nothing to animate while the hero is scrolled away — the observer in
-   aurora-background.tsx toggles this. */
-.aurora--paused .aurora__layer::after {
+   grid-field-background.tsx toggles this. The lens and crosshair are left
+   alone: they are driven by the pointer, and the pointer cannot be over a hero
+   nobody can see. */
+.grid-field--paused .grid-field__foil-light {
   animation-play-state: paused;
 }
 
-@keyframes aurora-drift {
-  from {
-    transform: translate3d(-8%, 0, 0);
+/* Held at both ends so the field has quiet stretches between sweeps. Without
+   the pauses a band crossing every 19s reads as a loop; with them it reads as
+   light catching the paper now and then. */
+@keyframes grid-sheen {
+  0%,
+  12% {
+    transform: translate3d(-42%, 0, 0);
   }
-  to {
-    transform: translate3d(8%, 0, 0);
+  88%,
+  100% {
+    transform: translate3d(42%, 0, 0);
   }
+}
+
+/* Phones get the paper and its tint, but not the sweep — and never the lens or
+   the crosshair, which the component declines to bind without a fine pointer.
+   A smaller ruling, because the same squares on a narrow screen read as coarse
+   rather than as graph paper. */
+@media (max-width: 640px) {
+  .grid-field,
+  .ambient-rules {
+    --rule-minor: 16px;
+    --rule-major: 80px;
+  }
+
+  .grid-field__foil-light {
+    display: none;
+  }
+}
+
+/* Hero hem -----------------------------------------------------------------
+   The join between the hero and the page under it.
+
+   Two things used to break there at once. The ruling was at full strength one
+   pixel and gone the next, and in dark mode the hero's black met the content's
+   zinc-950 as a visible step. This closes both: a band across the bottom of
+   the hero that fades up from the colour of whatever comes next, so the grid
+   dims into it and the two grounds meet at the same value.
+
+   It sits above the field and below the copy — the hero's own children are
+   painted after it — so it never touches the title or the buttons. */
+.hero-hem {
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  pointer-events: none;
+
+  /* The background of the section immediately below (bg-zinc-50 /
+     dark:bg-zinc-950 in SitePage). If that ever changes, this follows it. */
+  --hem: #fafafa;
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--hem) 38%, transparent) 48%,
+    color-mix(in srgb, var(--hem) 82%, transparent) 78%,
+    var(--hem) 100%
+  );
+}
+
+.dark .hero-hem {
+  --hem: #09090b;
+}
+
+/* Holographic heading text --------------------------------------------------
+   Characters that light up under the cursor, matching the grid behind them.
+   The geometry and the pointer work are in components/HoloText.tsx.
+
+   --lit is registered for its initial value, not for interpolation. `color`
+   and `text-shadow` below would transition on their own — a custom property
+   feeding a transitioned property still animates it — but before the first
+   pointer event an *unregistered* --lit substitutes as nothing, which makes
+   `calc(var(--lit) * 100%)` invalid and takes both declarations down with it.
+   Registering it as a number guarantees a real 0 to start from.
+
+   The transition is also why the handler in HoloText never runs an easing loop
+   of its own: it writes the target and CSS does the rest. */
+@property --lit {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.holo-text {
+  /* The colour a character falls back to, and the one --lit mixes away from. */
+  --holo-base: var(--foreground);
+}
+
+.holo-char {
+  /* Fixed at render: the character's own place in the sweep. The two halves
+     run --accent-brand to -2, then -2 to -3, so a lit word crosses the same
+     spectrum in the same direction as the sheen crossing the grid. */
+  --hue: var(--accent-brand-2);
+
+  color: color-mix(
+    in oklab,
+    var(--hue) calc(var(--lit) * 100%),
+    var(--holo-base)
+  );
+
+  /* The bloom is what stops this reading as text simply changing colour. It
+     scales with --lit, so it only ever appears on characters the cursor is
+     genuinely near. */
+  text-shadow: 0 0 calc(var(--lit) * 20px)
+    color-mix(in oklab, var(--hue) calc(var(--lit) * 42%), transparent);
+
+  transition:
+    color 260ms ease,
+    text-shadow 260ms ease;
+}
+
+.holo-char--low {
+  --hue: color-mix(
+    in oklab,
+    var(--accent-brand-2) calc(var(--m) * 100%),
+    var(--accent-brand)
+  );
+}
+
+.holo-char--high {
+  --hue: color-mix(
+    in oklab,
+    var(--accent-brand-3) calc(var(--m) * 100%),
+    var(--accent-brand-2)
+  );
 }

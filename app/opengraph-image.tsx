@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { siteName, siteNameZh } from "@/lib/site";
 
-export const alt = `${siteName} — High School Mathematics Specialists at Epping`;
+export const alt = `${siteName} | High School Mathematics Specialists at Epping`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -25,7 +25,7 @@ const OpengraphImage = () =>
           justifyContent: "center",
           padding: "0 96px",
           background:
-            "linear-gradient(135deg, #0a0a0a 0%, #111827 55%, #1e1b4b 100%)",
+            "linear-gradient(135deg, #0a0a0a 0%, #2b2112 55%, #4b381b 100%)",
           color: "#fafafa",
         }}
       >
@@ -35,7 +35,7 @@ const OpengraphImage = () =>
             width: 88,
             height: 6,
             borderRadius: 3,
-            background: "linear-gradient(to right, #60a5fa, #a5b4fc)",
+            background: "linear-gradient(to right, #ffd699, #ffe499, #fff8cc)",
             marginBottom: 44,
           }}
         />
@@ -55,7 +55,7 @@ const OpengraphImage = () =>
             display: "flex",
             fontSize: 52,
             marginTop: 12,
-            color: "#c7d2fe",
+            color: "#ffe6b3",
           }}
         >
           {siteNameZh}

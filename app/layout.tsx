@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 import "@/app/globals.css";
 import { ThemeSync } from "@/components/ThemeSync";
-import OrganizationJsonLd from "@/components/OrganizationJsonLd";
+import OrganisationJsonLd from "@/components/OrganisationJsonLd";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 const merriweather = Merriweather({
@@ -70,7 +70,7 @@ export default function RootLayout({
         className={`${merriweather.variable} ${merriweather.className} antialiased`}
       >
         <ThemeSync />
-        <OrganizationJsonLd />
+        <OrganisationJsonLd />
         {children}
       </body>
     </html>
