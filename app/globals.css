@@ -140,7 +140,25 @@
     var(--accent-brand) 100%
   );
 
+  /* The colour that rests in the ruling. Every ruled surface on the site uses
+     this same tint and varies only its opacity, which is what stops the hero,
+     the on-ramp below it and the ambient page reading as three different
+     papers. Same lazy-substitution note as --holo above. */
+  --foil-tint: linear-gradient(
+    118deg,
+    color-mix(in oklab, var(--accent-brand) 27%, transparent) 0%,
+    color-mix(in oklab, var(--accent-brand-2) 23%, transparent) 54%,
+    color-mix(in oklab, var(--accent-brand-3) 27%, transparent) 100%
+  );
+
   /* Ambient page background (see .ambient below). */
+  /* Full-strength ruling ink. The hero uses it, and so does the on-ramp that
+     carries the hero's paper down into the page — the whole point of that
+     hand-off is that the two are the same ink, so it lives here rather than
+     being written out twice. */
+  --rule-ink: rgba(80, 61, 33, 0.07);
+  --rule-ink-major: rgba(80, 61, 33, 0.15);
+
   --ambient-line: rgba(80, 61, 33, 0.035);
   --ambient-line-major: rgba(80, 61, 33, 0.08);
   --ambient-accent: rgba(124, 86, 29, 0.1);
@@ -206,6 +224,9 @@
   --accent-brand-3: #fff8cc;
   --accent-contrast: #332a15;
   --hairline: rgba(255, 246, 230, 0.16);
+
+  --rule-ink: rgba(255, 246, 230, 0.06);
+  --rule-ink-major: rgba(255, 246, 230, 0.13);
 
   --ambient-line: rgba(255, 246, 230, 0.032);
   --ambient-line-major: rgba(255, 246, 230, 0.075);
@@ -339,12 +360,59 @@
   position: absolute;
   inset: 0;
   opacity: 0.5;
-  background: linear-gradient(
-    118deg,
-    color-mix(in oklab, var(--accent-brand) 30%, transparent) 0%,
-    color-mix(in oklab, var(--accent-brand-2) 24%, transparent) 52%,
-    color-mix(in oklab, var(--accent-brand-3) 30%, transparent) 100%
+  background: var(--foil-tint);
+}
+
+/* Content on-ramp -----------------------------------------------------------
+   Carries the hero's paper down into the page instead of stopping it dead.
+
+   In light mode the hero and the section below it are the same colour, so there
+   was never a colour step to fix — what made the join stark was density. The
+   hero is richly ruled and tinted; the page under it is nearly bare. The eye
+   reads that as a hard edge even though not one pixel of background changes.
+
+   So this is the hero's own ruling and tint, at the hero's own strength, laid
+   over the first screen of the page and faded out by a mask. The hero's grid no
+   longer fades to nothing at its bottom edge either: it hands over at part
+   strength, and this picks up at the same part strength, so the two read as one
+   surface running out rather than as two surfaces meeting.
+
+   Both grids are full width from x=0, so their vertical rules line up exactly.
+   Only the horizontal rules can fall out of phase across the seam — by however
+   much the hero's height misses a whole number of squares — and a 1px hairline
+   at 7% opacity shifting a few pixels, once, is not something the eye catches. */
+.content-onramp {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  height: 60dvh;
+  pointer-events: none;
+
+  --rule-line: var(--rule-ink);
+  --rule-line-major: var(--rule-ink-major);
+
+  /* Starts where the hero's mask leaves off — see the 0.6 at the bottom of
+     .grid-field — rather than at full, which would read as the texture coming
+     back rather than continuing. */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.42) 26%,
+    rgba(0, 0, 0, 0.18) 62%,
+    transparent 100%
   );
+}
+
+.content-onramp__paper {
+  position: absolute;
+  inset: 0;
+}
+
+.content-onramp__foil {
+  position: absolute;
+  inset: 0;
+  opacity: 0.8;
+  background: var(--foil-tint);
 }
 
 /* Two blooms off opposite top corners — ochre on one side, old gold on the
@@ -597,8 +665,8 @@
 
   /* The hero is the same paper as the rest of the site, inked harder. The
      ruling itself comes from .ruled / .ruled-mask and --rule-minor in :root. */
-  --rule-line: rgba(80, 61, 33, 0.07);
-  --rule-line-major: rgba(80, 61, 33, 0.15);
+  --rule-line: var(--rule-ink);
+  --rule-line-major: var(--rule-ink-major);
   --grid-scrim: #fafafa;
 
   --foil-opacity: 0.8;
@@ -616,20 +684,29 @@
   /* Clears the band the navbar occupies. Absolute rather than a percentage on
      purpose: the navbar sits at a fixed `top-20`, so on a short viewport a
      percentage would let the grid climb back under its links. */
+  /* Top: clears the band the navbar occupies. Absolute rather than a percentage
+     on purpose — the navbar sits at a fixed `top-20`, so on a short viewport a
+     percentage would let the grid climb back under its links.
+
+     Bottom: does NOT reach transparent. It steps down to 0.6 at the hero's last
+     pixel and .content-onramp resumes there, so the paper runs out gradually
+     across the join instead of stopping at it. The step down still matters —
+     the sheen sweeping across would otherwise be cut off mid-stroke by the end
+     of the hero, and at 0.6 there is little left of it to cut. */
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
     transparent 150px,
     #000 300px,
-    #000 66%,
-    transparent 97%
+    #000 74%,
+    rgba(0, 0, 0, 0.6) 100%
   );
 }
 
 .dark .grid-field {
-  --rule-line: rgba(255, 246, 230, 0.06);
-  --rule-line-major: rgba(255, 246, 230, 0.13);
-  --grid-scrim: #000000;
+  --rule-line: var(--rule-ink);
+  --rule-line-major: var(--rule-ink-major);
+  --grid-scrim: #09090b;
 
   --foil-opacity: 0.95;
   --lens-opacity: 1;
@@ -665,12 +742,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    118deg,
-    color-mix(in oklab, var(--accent-brand) 26%, transparent) 0%,
-    color-mix(in oklab, var(--accent-brand-2) 22%, transparent) 55%,
-    color-mix(in oklab, var(--accent-brand-3) 26%, transparent) 100%
-  );
+  background: var(--foil-tint);
 }
 
 /* The sheen. A wide diagonal band travelling across the field — the rules it
@@ -838,38 +910,120 @@
   }
 }
 
-/* Hero hem -----------------------------------------------------------------
-   The join between the hero and the page under it.
+/* Scroll cue ----------------------------------------------------------------
+   The hero fills the screen and says nothing about there being more below it.
 
-   Two things used to break there at once. The ruling was at full strength one
-   pixel and gone the next, and in dark mode the hero's black met the content's
-   zinc-950 as a visible step. This closes both: a band across the bottom of
-   the hero that fades up from the colour of whatever comes next, so the grid
-   dims into it and the two grounds meet at the same value.
-
-   It sits above the field and below the copy — the hero's own children are
-   painted after it — so it never touches the title or the buttons. */
-.hero-hem {
+   Drawn in the site's own vocabulary rather than as a generic bouncing arrow: a
+   hairline rule with a spark running down it, which is the same figure as the
+   accent rules under the headings and the beam on the timeline. It is a real
+   link to the first section, so it works from the keyboard and can be opened in
+   a new tab like any other. */
+.scroll-cue {
   position: absolute;
-  inset: auto 0 0;
-  height: 40%;
-  pointer-events: none;
+  bottom: 2.25rem;
+  left: 50%;
+  translate: -50% 0;
 
-  /* The background of the section immediately below (bg-zinc-50 /
-     dark:bg-zinc-950 in SitePage). If that ever changes, this follows it. */
-  --hem: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 
+  color: var(--accent-brand);
+  opacity: 0.75;
+  transition:
+    opacity 300ms ease,
+    translate 300ms ease;
+}
+
+.scroll-cue:hover,
+.scroll-cue:focus-visible {
+  opacity: 1;
+}
+
+/* The rail the spark runs down. Fades out at both ends so it reads as a shaft
+   of light rather than as a line with two cut ends. */
+.scroll-cue__rail {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 2.75rem;
+  overflow: hidden;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    color-mix(in srgb, var(--hem) 38%, transparent) 48%,
-    color-mix(in srgb, var(--hem) 82%, transparent) 78%,
-    var(--hem) 100%
+    color-mix(in oklab, var(--accent-brand) 45%, transparent) 30%,
+    color-mix(in oklab, var(--accent-brand-2) 45%, transparent) 70%,
+    transparent 100%
   );
 }
 
-.dark .hero-hem {
-  --hem: #09090b;
+/* A short bright segment falling down the rail. Transform and opacity only, so
+   it composites; `overflow: hidden` on the rail is what clips it at both ends
+   rather than any animation of its size. */
+.scroll-cue__spark {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 45%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--accent-brand-2),
+    transparent
+  );
+  will-change: transform, opacity;
+  animation: scroll-cue-fall 2.4s cubic-bezier(0.45, 0, 0.3, 1) infinite;
+}
+
+.scroll-cue__chevron {
+  display: block;
+  width: 1.125rem;
+  will-change: transform;
+  animation: scroll-cue-nudge 2.4s cubic-bezier(0.45, 0, 0.3, 1) infinite;
+}
+
+.scroll-cue:hover .scroll-cue__chevron,
+.scroll-cue:focus-visible .scroll-cue__chevron {
+  animation-duration: 1.4s;
+}
+
+/* Held at the top for a beat so the cue reads as a repeated gesture rather than
+   as something in constant motion — the page is being read, not watched. */
+@keyframes scroll-cue-fall {
+  0%,
+  18% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  32% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(230%);
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-cue-nudge {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(3px);
+  }
+}
+
+/* A short viewport puts the copy where the cue is. The copy wins. */
+@media (max-height: 640px) {
+  .scroll-cue {
+    display: none;
+  }
 }
 
 /* Holographic heading text --------------------------------------------------

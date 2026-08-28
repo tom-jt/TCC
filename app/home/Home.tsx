@@ -1,6 +1,7 @@
 import { GridFieldBackground } from "@/components/ui/grid-field-background";
 import HeroActions from "@/components/HeroActions";
 import HoloText from "@/components/HoloText";
+import ScrollCue from "@/components/ScrollCue";
 import content from "@/data/general.json";
 import type { GeneralContent } from "@/data/types";
 
@@ -33,6 +34,10 @@ const Home = () => {
 
           <HeroActions />
         </div>
+
+        {/* Outside the copy's column so it positions against the hero itself,
+            and after it so it paints on top. */}
+        <ScrollCue />
       </GridFieldBackground>
     </section>
   );

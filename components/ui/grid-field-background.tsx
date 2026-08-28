@@ -187,7 +187,7 @@ export const GridFieldBackground = ({
       <div
         ref={heroRef}
         className={cn(
-          "relative flex h-full w-full flex-col items-center justify-center bg-zinc-50 dark:bg-black",
+          "relative flex h-full w-full flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950",
           className,
         )}
         {...props}
@@ -217,10 +217,6 @@ export const GridFieldBackground = ({
           {/* Between the field and the copy, never over it. */}
           <div className="grid-field__scrim" />
         </div>
-
-        {/* Fades the hero into the section below it; see .hero-hem. Placed
-            before the children so the copy paints over it, never under. */}
-        <div aria-hidden="true" className="hero-hem" />
 
         {children}
       </div>

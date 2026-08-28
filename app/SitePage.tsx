@@ -8,6 +8,7 @@ import Classes from "./classes/Classes";
 import Holiday from "./holiday/Holiday";
 import styles from "./page.module.css";
 import AmbientBackground from "@/components/ui/ambient-background";
+import ContentOnramp from "@/components/ui/content-onramp";
 import SectionRouting from "@/components/SectionRouting";
 
 interface SitePageProps {
@@ -37,6 +38,11 @@ const SitePage = ({ section }: SitePageProps) => {
             </div>
 
             <AmbientBackground />
+
+            {/* After the ambient, so it sits over it: this is the hero's paper
+                running out, and it should be the stronger of the two while it
+                lasts. Both are behind the z-10 content above. */}
+            <ContentOnramp />
           </div>
         </main>
 

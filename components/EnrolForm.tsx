@@ -327,13 +327,13 @@ export default function EnrolForm() {
           active={mode === "enquiry"}
           onClick={() => switchMode("enquiry")}
         >
-          Quick enquiry
+          Enquiry
         </ModeButton>
         <ModeButton
           active={mode === "enrolment"}
           onClick={() => switchMode("enrolment")}
         >
-          Full enrolment
+          Enrolment
         </ModeButton>
       </div>
 
