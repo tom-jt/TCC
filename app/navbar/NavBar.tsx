@@ -10,47 +10,49 @@ import {
   MobileNavHeader,
   MobileNavToggle,
   MobileNavMenu,
+  isPlainClick,
 } from "@/components/ui/resizable-navbar";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import Link from "next/link";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { scrollToId } from "@/components/util";
+import { NAV_SECTIONS, getSection } from "@/lib/sections";
 
 interface NavBarProps extends PropsWithChildren {
   children?: ReactNode;
   className?: string;
 }
 
+const MOBILE_MENU_ID = "mobile-nav-menu";
+
 const NavBar = ({ children, className = "" }: NavBarProps) => {
-  const navItems = [
-    {
-      name: "Noticeboard",
-      link: "noticeboard",
-    },
-    {
-      name: "Classes",
-      link: "classes",
-    },
-    {
-      name: "Holiday",
-      link: "holiday",
-    },
-    {
-      name: "Results",
-      link: "results",
-    },
-  ];
+  // Driven from lib/sections.ts so the navbar, the routes and the sitemap can
+  // never disagree about what sections exist.
+  const navItems = NAV_SECTIONS.map((section) => ({
+    name: section.nav!,
+    id: section.id,
+    path: section.path,
+  }));
+
+  const contactPath = getSection("contact")?.path ?? "/contact";
+  const enrolPath = getSection("enrol")?.path ?? "/enrol";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navBarOnClick = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  const navBarOnClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
+    if (!isPlainClick(e)) return;
     e.preventDefault();
     scrollToId(id);
   };
 
   const navBarOnClickMobile = (
-    e: React.MouseEvent<HTMLElement>,
+    e: React.MouseEvent<HTMLAnchorElement>,
     id: string,
   ) => {
+    if (!isPlainClick(e)) return;
     e.preventDefault();
     setIsMobileMenuOpen(false);
     scrollToId(id);
@@ -66,7 +68,8 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
           <div className="flex items-center gap-4">
             <NavbarButton
               as={"a"}
-              onClick={(e: React.MouseEvent<HTMLElement>) =>
+              href={contactPath}
+              onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                 navBarOnClick(e, "contact")
               }
               variant="secondary"
@@ -75,7 +78,8 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
             </NavbarButton>
             <NavbarButton
               as={"a"}
-              onClick={(e: React.MouseEvent<HTMLElement>) =>
+              href={enrolPath}
+              onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                 navBarOnClick(e, "enrol")
               }
               variant="primary"
@@ -90,31 +94,39 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <MobileNavToggle
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            />
+            <div className="flex items-center gap-2">
+              <AnimatedThemeToggler className="z-0 cursor-pointer p-1" />
+              <MobileNavToggle
+                isOpen={isMobileMenuOpen}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                controls={MOBILE_MENU_ID}
+              />
+            </div>
           </MobileNavHeader>
 
           <MobileNavMenu
+            id={MOBILE_MENU_ID}
             isOpen={isMobileMenuOpen}
             onClose={() => setIsMobileMenuOpen(false)}
           >
-            {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
-                  navBarOnClickMobile(e, item.link)
+            {navItems.map((item) => (
+              <Link
+                key={item.id}
+                href={item.path}
+                prefetch={false}
+                onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                  navBarOnClickMobile(e, item.id)
                 }
                 className="relative text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
-              </a>
+              </Link>
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                as={"a"}
+                href={contactPath}
+                onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                   navBarOnClickMobile(e, "contact")
                 }
                 variant="primary"
@@ -123,7 +135,9 @@ const NavBar = ({ children, className = "" }: NavBarProps) => {
                 Contact Us
               </NavbarButton>
               <NavbarButton
-                onClick={(e: React.MouseEvent<HTMLElement>) =>
+                as={"a"}
+                href={enrolPath}
+                onClick={(e: React.MouseEvent<HTMLAnchorElement>) =>
                   navBarOnClickMobile(e, "enrol")
                 }
                 variant="primary"
